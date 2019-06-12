@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maiyajf.loan.manage.loan.banner.dao.FileInfoDao">
+
+	<resultMap type="com.maiyajf.loan.manage.loan.banner.po.FileInfo"
+		id="bannerFileMap">
+		<id property="id" column="SGUID" />
+		<result property="filelNo" column="sFileNo" />
+		<result property="sourceName" column="sSourceName" />
+		<result property="fileUrl" column="sFileUrl" />
+		<result property="type" column="type" />
+	</resultMap>
+
+
+
+	<insert id="addBannerFile" parameterType="com.maiyajf.loan.manage.loan.banner.po.FileInfo">
+		insert into
+		ba_file(sGuid,sBannerNo,sBannerId,sFileNo,sSourceName,sFileUrl,type,dCreateDate,iDelFlag)
+		values
+		(#{id}, #{bannerNo,jdbcType=VARCHAR},
+		#{bannerId,jdbcType=VARCHAR},
+		#{filelNo,jdbcType=VARCHAR},
+		#{sourceName,jdbcType=VARCHAR},
+		#{fileUrl,jdbcType=VARCHAR},
+		#{type},
+		now(),
+		1)
+	</insert>
+	<update id="updateBannerFileInvalid" parameterType="string">
+		update
+		ba_file set iDelFlag=0
+		where sGuid= #{guid}
+	</update>
+	<update id="deleteByBannerId" parameterType="string">
+		update
+		ba_file set
+		iDelFlag=0
+		where sBannerId= #{bannerId}
+	</update>
+
+	<update id="deleteByBannerIds" parameterType="string">
+		update
+		ba_file set
+		iDelFlag=0
+		where sBannerId in	 
+		<foreach close=")" open="(" collection="ids" item="id" index="index"
+			separator=",">
+			#{id}
+		</foreach>
+	</update>
+	<update id="deleteByinfos" parameterType="string">
+		update
+		ba_file set
+		iDelFlag=0
+		where sBannerId= #{bannerId} and type=#{type}
+	</update>
+</mapper>

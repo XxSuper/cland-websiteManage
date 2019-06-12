@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.maiya</groupId>
+    <artifactId>myLoan-parent</artifactId>
+    <version>0.0.1</version>
+  </parent>
+  <groupId>com.maiyajf.loan.manage</groupId>
+  <artifactId>cland-websiteManage</artifactId>
+  <packaging>war</packaging>
+  
+  <dependencies>
+		<dependency>
+			<groupId>com.maiya</groupId>
+			<artifactId>myLoan-base</artifactId>
+			<version>1.0.9</version>
+			<type>jar</type>
+		</dependency>
+  </dependencies>
+  
+  <build>
+		<finalName>cland-websiteManage</finalName>
+  </build>
+</project>

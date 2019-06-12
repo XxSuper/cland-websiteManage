@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.maiyajf.loan.manage.loan.sys.dao.RolePermissionDao">
+	<!-- 删除角色下的权限 -->
+	<update id="deleteByRoleId" parameterType="string">
+		update
+		sys_ROLEPERMISSION set IDELFLAG =0
+		WHERE SROLEID=#{roleId}
+	</update>
+	<!-- 为角色设置权限 -->
+	<insert id="add" parameterType="java.util.List">
+		insert into sys_ROLEPERMISSION (SGUID, SROLEID,
+		SPERMISSIONID,IDELFLAG)
+		VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.sGuid},
+			#{item.sRoleId},
+			#{item.sPermissionId},
+			#{item.iDelFlag})
+		</foreach>
+	</insert>
+	<!-- 获取角色的权限 -->
+	<select id="getPermissionByRole" resultType="java.util.HashMap">
+		select spermissionid from sys_ROLEPERMISSION where sroleid=#{roleId} and
+		IDELFLAG =1
+	</select>
+</mapper>

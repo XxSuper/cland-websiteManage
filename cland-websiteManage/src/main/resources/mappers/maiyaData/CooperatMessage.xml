@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maiyajf.loan.manage.loan.cooperatmessage.dao.CooperatDao">
+  <!-- 插入登录日志 -->
+	<insert id="save" parameterType="com.maiyajf.loan.manage.loan.cooperatmessage.po.CooperatBean">
+		insert into  cooperat_message(sGuid,
+		sName,
+		sPhone,
+		sCompany,
+		sDescription,
+		status,
+		addTime)
+		values(#{sGuid},#{sName},#{sPhone},#{sCompany},#{sDescription},#{status},sysDate())
+	</insert>
+	
+	<select id="queryPage" parameterType="java.util.Map" resultType="com.maiyajf.loan.manage.loan.cooperatmessage.po.CooperatBean">
+		SELECT sGuid,
+		sName,
+		sPhone,
+		sCompany,
+		sDescription,
+		status,
+		addTime
+		FROM cooperat_message
+		order by addTime desc
+		LIMIT #{recordStart},#{recordEnd}
+	</select>
+
+	<select id="count" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM cooperat_message
+	</select>
+</mapper>

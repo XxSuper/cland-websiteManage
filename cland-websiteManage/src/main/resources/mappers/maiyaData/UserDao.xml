@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maiyajf.loan.manage.loan.sys.dao.UserDao">
+	<resultMap type="com.maiyajf.loan.manage.loan.sys.po.User"
+		id="userMap">
+		<id property="guid" column="SGUID" />
+		<result property="userNo" column="SUSERNO" />
+		<result property="mobile" column="SMOBILE" />
+		<result property="email" column="SEMAIL" />
+		<result property="userName" column="SUSERNAME" />
+		<result property="password" column="SPASSWORD" />
+		<result property="status" column="SSTATUS" />
+		<result property="remark" column="SREMARK" />
+		<result property="createDate" column="SCREATEDATE" />
+		<result property="modifyDate" column="SMODIFYDATE" />
+		<result property="job" column="SJOB" />
+		<result property="phone" column="SPHONE" />
+		<result property="realName" column="SREALNAME" />
+		<result property="bisFreeze" column="SBISFREEZE" />
+		<result property="bisAdmin" column="SBISADMIN" />
+		<result property="lastLoginTime" column="SLASTLOGINTIME" />
+		<result property="departmentId" column="SDEPARTMENTID" />
+		<result property="sCreatePerson" column="SCREATEPERSON" />
+		<result property="sModifyPerson" column="SMODIFYPERSON" />
+		<result property="iDelFlag" column="IDELFLAG" />
+	</resultMap>
+	<!-- 根据用户名密码获取用户 -->
+	<select id="getUserByNameAndPassword" resultMap="userMap">
+		select * from
+		sys_user where SUSERNAME=#{username}
+		and
+		SPASSWORD=#{password} and
+		IDELFLAG=1 and sStatus = 0
+	</select>
+	<!-- 添加用户 -->
+	<insert id="save" parameterType="com.maiyajf.loan.manage.loan.sys.po.User">
+		insert into
+		sys_user(SGUID,SUSERNO,SMOBILE,SEMAIL,SUSERNAME,SSTATUS,SREMARK,SCREATEDATE,SMODIFYDATE,SJOB
+		,SPHONE,SREALNAME,SBISFREEZE,SPASSWORD,IDELFLAG,SCREATEPERSON)
+		values
+		(#{guid}, #{userNo},
+		#{mobile},
+		#{email},#{userName},1,
+		#{remark},
+		NOW(),
+		NOW(),
+		#{job},
+		#{phone},
+		#{realName},
+		1,#{password},1,#{sCreatePerson})
+	</insert>
+	<!-- 添加用户 申请 -->
+	<insert id="saveUserApply" parameterType="com.maiyajf.loan.manage.loan.sys.po.User">
+		insert into
+		sys_UserApply(SGUID,SUSERNO,SUSERNAME,SREALNAME,SJOB
+		,SPHONE,IDELFLAG,SREMARK,SCREATEPERSON,SCREATEDATE)
+		values
+		(#{guid},
+		#{userNo},#{userName},#{realName},#{job},
+		#{phone},1,#{remark},#{sCreatePerson},NOW())
+	</insert>
+	<!-- 更新用户 -->
+	<update id="update" parameterType="com.maiyajf.loan.manage.loan.sys.po.User">
+		update sys_user set
+		SMOBILE=#{mobile}, SEMAIL=#{email},
+		SUSERNAME=#{userName}, SJOB=#{job},
+		SPHONE=#{phone},
+		SREALNAME=#{realName},SMODIFYPERSON=#{sModifyPerson},sModifyDate=NOW()
+		where sGuid = #{guid}
+	</update>
+	<!-- 查询用户根据用户名 -->
+	<select id="getByUsername" parameterType="string" resultMap="userMap">
+		select *
+		from sys_user where SUSERNAME=#{username} and IDELFLAG =1 and
+		sStatus = 0
+	</select>
+	<!-- 查询用户根据多条件 -->
+	<select id="getByUsersByName" resultMap="userMap">
+		select u.* from sys_user u where u.SSTATUS
+		= 0 and u.IDELFLAG =1
+		<if test="suserName != null and suserName != ''"> and u.SUSERNAME like '%' #{suserName} '%' </if>
+		<if test="sMobile != null and sMobile != ''"> and u.SMOBILE = #{sMobile} </if>
+		LIMIT #{pageStart},#{pageEnd}
+	</select>
+	<!-- 查询用户总数 -->
+	<select id="getUserCount" resultType="int">
+		select count(SGUID)
+		from
+		sys_user where IDELFLAG =1 and sStatus = 0
+	</select>
+	<!-- 查询待审核用户根据多条件 -->
+	<select id="getUsersForAudit" resultMap="userMap">
+		select u.* from sys_user u where u.SSTATUS
+		= 1 and u.IDELFLAG =1
+		<if test="suserName != null and suserName != ''"> and u.SUSERNAME like '%'||#{suserName}||'%' </if>
+		<if test="sMobile != null and sMobile != ''"> and u.SMOBILE = #{sMobile} </if>
+		LIMIT #{pageStart},#{pageEnd}
+	</select>
+	<!-- 查询待审核用户总数 -->
+	<select id="getUserCountForAudit" resultType="int">
+		select count(SGUID)
+		from sys_user where IDELFLAG = 1 and sStatus = 1
+	</select>
+	<!-- 删除用户 -->
+	<update id="delete" parameterType="string">
+		update
+		sys_user u set
+		u.IDELFLAG=0 where u.sGuid=#{id}
+	</update>
+	<!-- 删除用户申请 -->
+	<update id="deleteUserApply" parameterType="string">
+		update
+		sys_UserApply u
+		set
+		u.IDELFLAG=0 where u.sGuid=#{id}
+	</update>
+	<!-- 查询某个角色下的用户 -->
+	<select id="getByUsersRoleIds" resultMap="userMap">
+		select * from sys_user r where r.susername in(
+		select
+		distinct(u.susername)
+		from sys_user u LEFT JOIN sys_userrole ur ON
+		u.SGUID =
+		ur.SUSERID LEFT JOIN sys_role r ON
+		ur.sroleid=r.sguid where
+		r.iDelFlag =1 and u.iDelFlag =1 and u.sbisfreeze=1 and u.sStatus = 0
+		and ur.iDelFlag =1 and
+		r.sguid in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		) and r.iDelFlag=1
+	</select>
+	<!-- 查询用户根据id -->
+	<select id="getUserById" resultMap="userMap">
+		SELECT * from
+		sys_user u where
+		u.sGuid = #{guid} and u.iDelFlag =1 and u.sStatus = 0
+	</select>
+	<!-- 查询手机号根据用户名 -->
+	<select id="getPhoneByUserName" resultType="string">
+		SELECT SMOBILE from
+		sys_user u where u.SUSERNAME = #{name} and u.iDelFlag =1 and u.sStatus
+		= 0
+	</select>
+	<!-- 查询用户总数根据密码和用户id -->
+	<select id="getUserCountByIdAndPassword" resultType="int">
+		select
+		count(u.SGUID) from
+		sys_user u where u.sGuid=#{userId} and
+		u.sPassword=#{oldPassWord} and u.iDelFlag =1 and u.sStatus = 0
+	</select>
+	<!--更新密码 -->
+	<update id="updatePassword">
+		update sys_user set sPassword=#{passWord}
+		where sGuid
+		= #{userId}
+	</update>
+	<!--检测号码是否唯一 -->
+	<select id="checkUniqueMobile" resultType="int">
+		select count(u.SGUID)
+		from
+		sys_user u where u.sMobile=#{mobile} and u.iDelFlag =1
+	</select>
+	<!--检测用户名是否唯一 -->
+	<select id="checkUniqueUserName" resultType="int">
+		select
+		count(u.SGUID)
+		from
+		sys_user u where u.SUSERNAME=#{userName} and
+		u.iDelFlag =1
+	</select>
+	<!--禁用用户一 -->
+	<update id="updateFreeze">
+		update sys_user set sBisFreeze=#{type}
+		where sGuid =
+		#{id}
+	</update>
+	<!--用户一 -->
+	<update id="updateUsing">
+		update sys_user set
+		sStatus=#{sStatus},sCheckPerson=#{sCheckPerson},iDelFlag
+		=#{idelFlag},sModifyDate=NOW()
+		where sGuid = #{sGuid}
+	</update>
+	<!--禁用用户一 -->
+	<update id="updateUserAudit">
+		update sys_UserApply set
+		iCheckResult=#{iCheckResult},sCheckPerson=#{sCheckPerson},sCheckDate=NOW(),iDelFlag
+		=#{idelFlag}
+		where sGuid = #{sGuid}
+	</update>
+	<!--根据角色查询用户名一 -->
+	<select id="getUserNamebyRoleIds" resultType="java.util.HashMap">
+		select
+		distinct(u.susername),ur.sroleid
+		from sys_user u LEFT JOIN
+		sys_userrole ur ON
+		u.SGUID =
+		ur.SUSERID LEFT JOIN
+		sys_role r ON
+		ur.sroleid=r.sguid where
+		r.iDelFlag =1 and u.iDelFlag =1
+		and
+		u.sbisfreeze=1 and u.sStatus = 0
+		and ur.iDelFlag =1 and
+		r.sguid in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+</mapper>

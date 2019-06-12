@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.maiyajf.loan.manage.loan.sys.dao.PermissionDao">
+	<resultMap type="com.maiyajf.loan.manage.loan.sys.po.Permission"
+		id="permissionMap">
+		<id property="guid" column="SGUID" />
+		<result property="permissionNo" column="SPERMISSIONNO" />
+		<result property="parentId" column="SPARENTID" />
+		<result property="permissionUrl" column="SPERMISSIONURL" />
+		<result property="permissionName" column="SPERMISSIONNAME" />
+		<result property="permissionCode" column="SPERMISSIONCODE" />
+		<result property="addDate" column="SADDDATE" />
+		<result property="iDelFlag" column="IDELFLAG" />
+	</resultMap>
+
+	<sql id="commonSql">from sys_permission p where p.sguid in (select distinct
+		rp.spermissionid from sys_rolepermission rp where rp.sroleid in (
+		select r.sguid from sys_role r where r.sguid in (select ur.sroleid
+		from sys_userrole ur where ur.suserid=#{guid} and ur.IDELFLAG = 1 ) and r.IDELFLAG = 1 ) and rp.IDELFLAG = 1 ) and p.IDELFLAG = 1
+	</sql>
+
+	<!-- 获取用户拥有的权限码 -->
+	<select id="getPermissionStringById" parameterType="string"
+		resultType="String">
+		select p.spermissioncode
+		<include refid="commonSql" />
+	</select>
+	<!-- 获取用户拥有的权限的所属菜单 -->
+	<select id="getMenuIdById" parameterType="string" resultType="String">
+		select distinct(p.sparentid)
+		<include refid="commonSql" />
+	</select>
+	<!-- 获取用户拥有的权限 -->
+	<select id="getPermissionById" parameterType="string" resultMap="permissionMap">
+		select *
+		<include refid="commonSql" />
+	</select>
+	<!-- 获取菜单下的权限 -->
+	<select id="getPermissionByMenuId" parameterType="string"
+		resultMap="permissionMap">
+		select * from sys_permission p where p.sparentid =#{id} and p.IDELFLAG = 1  order by sAddDate
+		desc
+	</select>
+	<!-- 删除菜单 -->
+	<update id="delete" parameterType="string">
+		update sys_permission set IDELFLAG = 0
+		where SGUID=#{id}
+	</update>
+	<!-- 插入菜单 -->
+	<insert id="add" parameterType="com.maiyajf.loan.manage.loan.sys.po.Permission">
+		insert into
+		sys_permission(SGUID,SPERMISSIONNO,SPARENTID,SPERMISSIONURL,SPERMISSIONNAME,SPERMISSIONCODE,SADDDATE,IDELFLAG)
+		values(#{guid}, #{permissionNo},
+		#{parentId},
+		#{permissionUrl},
+		#{permissionName},
+		#{permissionCode},
+		NOW(),1)
+	</insert>
+	<!-- 获取单个权限 -->
+	<select id="get" parameterType="string" resultMap="permissionMap">
+		select * from sys_permission p where p.sGuid =#{guid} and p.IDELFLAG = 1
+	</select>
+	<!-- 更新权限 -->
+	<update id="update" parameterType="com.maiyajf.loan.manage.loan.sys.po.Permission">
+		update sys_permission set
+		sPermissionUrl=#{permissionUrl},sPermissionName=#{permissionName},sPermissionCode=#{permissionCode}
+		where sGuid=#{guid} and IDELFLAG = 1 
+	</update>
+	<!-- 删除菜单下的权限-->
+	<update id="deleteByMenuId" parameterType="string">
+		update sys_permission set IDELFLAG = 0 where sParentId=#{id}
+	</update>
+    <!-- 根据url获取对应的权限-->
+	<select id="getPermissonByUrl" parameterType="string" resultMap="permissionMap">
+		 select * from( select * from sys_permission p where p.spermissionurl=#{url} and p.IDELFLAG = 1) t LIMIT 0,1
+	</select>
+</mapper>

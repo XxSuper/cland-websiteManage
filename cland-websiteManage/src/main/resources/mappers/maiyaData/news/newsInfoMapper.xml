@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maiyajf.loan.manage.loan.news.dao.XwNewsInfoDao">
+	<sql id="fields">
+		sNewsNo,iType,sTitle,sIntroduce,sMediaImage,sBannerImage,sLinkUrl,
+		sNewContent,iHomeDisplay,iSortNum,sModularId,dPublishDate,dModifyDate,iDelFlag,remark
+	</sql>
+	
+	<sql id="queryfields">
+		sNewsNo,iType,sTitle,sIntroduce,sMediaImage,sBannerImage,sLinkUrl,
+		sNewContent,iHomeDisplay,iSortNum,sModularId,date_format(dPublishDate, '%Y-%m-%d') dPublishDate,date_format(dModifyDate, '%Y-%m-%d %H:%i:%s') dModifyDate,iDelFlag,remark
+	</sql>
+	
+	<insert id="save" parameterType="XwNewsInfoBean">
+		insert into xw_newsinfo(
+		<include refid="fields" />
+		) values
+		(#{sNewsNo},#{iType},#{sTitle},#{sIntroduce},#{sMediaImage},#{sBannerImage},#{sLinkUrl},#{sNewContent},
+		#{iHomeDisplay},#{iSortNum},#{sModularId},#{dPublishDate},sysDate(),1,#{remark})
+	</insert>
+	
+	<update id="update" parameterType="XwNewsInfoBean">
+		update xw_newsinfo
+			<trim prefix="set" suffixOverrides=",">
+			  <if test="sTitle != null">sTitle = #{sTitle},</if>
+			  <if test="sIntroduce != null">sIntroduce = #{sIntroduce},</if>
+			  <if test="sMediaImage != null">sMediaImage = #{sMediaImage},</if>
+			  <if test="sBannerImage != null">sBannerImage = #{sBannerImage},</if>
+			  <if test="sLinkUrl != null">sLinkUrl = #{sLinkUrl},</if>
+			  <if test="sNewContent != null">sNewContent = #{sNewContent},</if>
+			  <if test="iHomeDisplay != null">iHomeDisplay = #{iHomeDisplay},</if>
+			  <if test="iSortNum != null">iSortNum = #{iSortNum},</if>
+			  <if test="dPublishDate != null">dPublishDate = #{dPublishDate},</if>
+			  <if test="sModularId != null">sModularId = #{sModularId},</if>
+			  <if test="remark != null">remark = #{remark},</if>
+			  dModifyDate = sysDate(),
+			</trim>
+		 WHERE sNewsNo = #{sNewsNo}	
+	</update>
+
+	<select id="queryNews" parameterType="QueyNewsParams"
+		resultType="XwNewsInfoBean">
+		SELECT <include refid="queryfields" /> FROM xw_newsinfo WHERE iDelFlag = 1
+		<if test="iType != null and iType != ''.toString()">and iType = #{iType} </if>
+		<if test="sModularId != null and sModularId != ''.toString()">and sModularId = #{sModularId} </if>
+		order by iSortNum desc  LIMIT #{recordStart},#{recordEnd}
+	</select>
+
+	<select id="queryNewsNoPage" parameterType="QueyNewsParams"
+		resultType="XwNewsInfoBean">
+		SELECT <include refid="queryfields" /> FROM xw_newsinfo WHERE iDelFlag = 1
+		<if test="iType != null and iType != ''.toString()">and iType = #{iType} </if>
+		<if test="iHomeDisplay != null and iHomeDisplay != ''.toString()">and iHomeDisplay = #{iHomeDisplay} </if>
+		order by iSortNum desc
+	</select>
+
+	<select id="count" parameterType="QueyNewsParams" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM xw_newsinfo WHERE iDelFlag = 1
+		<if test="iType != null and iType != ''">and iType = #{iType}  </if>
+	</select>
+
+	<select id="getMaxSortNum" parameterType="XwNewsInfoBean" resultType="java.lang.Integer">
+		SELECT max(iSortNum) FROM xw_newsinfo WHERE iDelFlag = 1
+		<if test="iType != null and iType != ''">and iType = #{iType}  </if>
+	</select>
+
+	<update id="deleteNews">
+		update xw_newsinfo set idelflag = 0,dModifyDate = sysDate() where sNewsNo = #{sNewsNo}
+	</update>
+
+	<select id="showNewsInfo" resultType="XwNewsInfoBean">
+		select <include refid="queryfields" />
+		FROM xw_newsinfo where sNewsNo = #{sNewsNo} and
+		idelflag = 1
+	</select>
+
+	<update id="deleteAll">
+			update xw_newsinfo set idelflag = 0,dModifyDate = sysDate() where
+		<foreach collection="sNewsNos" item="item" index="index" open=""
+			close="" separator="or">
+			 sNewsNo = #{item}
+		</foreach>
+	</update>
+	
+	<select id="queryTopNByParam" parameterType="QueyNewsParams"
+		resultType="XwNewsInfoBean">
+		SELECT <include refid="queryfields" /> FROM xw_newsinfo WHERE iDelFlag = 1
+		<if test="iType != null and iType != ''.toString()">and iType = #{iType} </if>
+		<if test="sModularId != null and sModularId != ''.toString()">and sModularId = #{sModularId} </if>
+		order by iSortNum asc
+		<if test="topN != null and topN != ''.toString()">limit #{topN} </if>
+	</select>
+</mapper>

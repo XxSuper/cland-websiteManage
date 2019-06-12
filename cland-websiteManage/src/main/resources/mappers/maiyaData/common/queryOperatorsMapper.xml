@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maiyajf.loan.manage.common.dao.QueryOperatorsDao">
+
+	<select id="queryAddNewsOperators" resultType="java.lang.String">
+	SELECT DISTINCT sAddPerson operator FROM xw_newsinfo WHERE
+		dcreatedate &lt; (sysdate() - 30) 
+	</select>
+
+	<select id="queryApprovalNewsOperators" resultType="java.lang.String">
+	SELECT DISTINCT sAuditPerson operator FROM xw_newsinfo WHERE
+		dModifyDate &lt; (sysdate() - 30) and iStatus &lt;&gt; 1 
+	</select>
+
+</mapper>

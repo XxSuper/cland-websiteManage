@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maiyajf.loan.manage.loan.banner.dao.BannerDao">
+
+	<resultMap type="com.maiyajf.loan.manage.loan.banner.po.BannerInfo"
+		id="bannerMap">
+		<id property="id" column="SGUID" />
+		<result property="bannerNo" column="sBannerNo" />
+		<result property="title" column="sTitle" />
+		<result property="location" column="sPublishLocation" />
+		<result property="endDate" column="dEndDate" />
+		<result property="iStatus" column="iStatus" />
+		<result property="publishDate" column="dPublishDate" />
+	</resultMap>
+	<!--根据条件查询banner信息 -->
+	<select id="findByConditions" resultType="com.maiyajf.loan.manage.loan.banner.vo.BannerInfoVo">
+		SELECT
+		ba.sGuid AS id,
+		CASE
+		WHEN ba.sLinkUrl=''
+		THEN '无'
+		ELSE '有'
+		END AS
+		link,
+		ba.sBannerNo AS bannerNo,
+		ba.sTitle AS title,
+		ba.sPublishLocation
+		AS
+		location,
+		ba.iStatus AS istatus,
+		ba.dPublishDate
+		AS publishDate,
+		ba.dEndDate AS endDate ,
+		ba.sAddPerson AS addPerson,
+		ba.sAuditPerson AS
+		auditPerson
+		FROM
+		ba_bannerinfo ba
+
+		where ba.iDelFlag=1
+		<if test="title != null "> <![CDATA[ and ba.sTitle like '%${title}%'  ]]>
+		</if>
+		<if test="location != null"><![CDATA[ and ba.sPublishLocation=#{location} ]]>
+		</if>
+		<if test="hasLink == 'no' "> <![CDATA[  and ba.sLinkUrl='' ]]>
+		</if>
+		<if test="hasLink == 'has' "> <![CDATA[  and ba.sLinkUrl !='' ]]>
+		</if>
+		<if test="status == 'no'"><![CDATA[  and ba.iStatus=1]]></if>
+		<if test="status == 'valid'"><![CDATA[  and ba.iStatus=2]]></if>
+		<if test="status == 'invalid'"><![CDATA[  and ba.iStatus=5]]></if>
+		<if test="status == 'down'"><![CDATA[  and ba.iStatus=3]]></if>
+		<if test="status == 'refuse'"><![CDATA[  and ba.iStatus=4]]></if>
+		<if test="pubStartDate != null  and pubEndDate != null "><![CDATA[  and (ba.dPublishDate between #{pubStartDate} and #{pubEndDate} ) ]]>
+		</if>
+		<if test="pubStartDate != null   and pubEndDate == null "><![CDATA[  and ba.dPublishDate >= #{pubStartDate}  ]]>
+		</if>
+		<if test="pubEndDate != null and pubStartDate == null"><![CDATA[  and ba.dPublishDate <= #{pubEndDate}  ]]></if>
+
+		ORDER BY dPublishDate,dEndDate DESC
+
+	</select>
+	<!--根据条件查询banner的数量 -->
+	<select id="countByConditions" resultType="int">
+		SELECT count(ba.sGuid)
+		FROM
+		ba_bannerinfo ba
+
+		where ba.iDelFlag=1
+		<if test="title != null "> <![CDATA[ and ba.sTitle like '%${title}%'  ]]>
+		</if>
+		<if test="location != null"><![CDATA[ and ba.sPublishLocation=#{location} ]]>
+		</if>
+		<if test="hasLink == 'no' "> <![CDATA[  and ba.sLinkUrl is null ]]>
+		</if>
+		<if test="hasLink == 'has' "> <![CDATA[  and ba.sLinkUrl  is not  null ]]>
+		</if>
+		<if test="status == 'no'"><![CDATA[  and ba.iStatus=1]]></if>
+		<if test="status == 'valid'"><![CDATA[  and ba.iStatus=2]]></if>
+		<if test="status == 'invalid'"><![CDATA[  and ba.iStatus=5]]></if>
+		<if test="status == 'down'"><![CDATA[  and ba.iStatus=3]]></if>
+		<if test="status == 'refuse'"><![CDATA[  and ba.iStatus=4]]></if>
+		<if test="pubStartDate != null  and pubEndDate != null "><![CDATA[  and (ba.dPublishDate between #{pubStartDate} and #{pubEndDate} ) ]]>
+		</if>
+		<if test="pubStartDate != null   and pubEndDate == null "><![CDATA[  and ba.dPublishDate >= #{pubStartDate}  ]]>
+		</if>
+		<if test="pubEndDate != null and pubStartDate == null"><![CDATA[  and ba.dPublishDate <= #{pubEndDate}  ]]></if>
+
+
+	</select>
+	<!-- 查询将要过期的banner -->
+	<select id="selectInvalidingBanners" resultMap="bannerMap">
+		select * from ba_bannerinfo banner where  <![CDATA[ DATE_ADD(banner.dEndDate, INTERVAL 1 DAY)<now()]]>
+	</select>
+	<!--根据活动主建查询活动以及活动附件信息 -->
+	<select id="getById" resultType="com.maiyajf.loan.manage.loan.banner.vo.BannerInfoVo">
+		SELECT ba.sGuid as
+		id,
+		ba.sLinkUrl AS link,
+		af.sFileUrl as bannerPhoto,
+		af.sSourceName as
+		sourceName,
+		ba.sBannerNo AS bannerNo,
+		ba.sTitle AS
+		title,ba.sPublishLocation
+		AS location,
+		ba.iStatus AS
+		istatus,ba.dPublishDate AS
+		publishDate,
+		ba.dEndDate
+		AS endDate,
+		ba.dBeginDate AS
+		startDate FROM
+		ba_bannerinfo ba LEFT JOIN
+		ba_file af
+		ON
+		ba.sGuid=af.sBannerId
+		where
+		ba.sGuid= #{guid} and ba.iDelFlag=1
+	</select>
+
+	<insert id="insertBanner" parameterType="com.maiyajf.loan.manage.loan.banner.po.BannerInfo">
+		insert into
+		ba_bannerinfo(SGUID,sBannerNo,sPublishLocation,sLinkUrl,sTitle,iStatus,dEndDate,iDelFlag,sAddPerson,dcreateDate)
+		values
+		(#{id}, #{bannerNo},
+		#{location},
+		#{detailLink},
+		#{title},
+		1,
+		DATE_FORMAT(#{endDate},'%Y-%m-%d'),
+		1,
+		#{addPerson},
+		NOW()
+		)
+	</insert>
+	<update id="updateBanner" parameterType="com.maiyajf.loan.manage.loan.banner.po.BannerInfo">
+		update
+		ba_bannerinfo
+		set
+		sPublishLocation=#{location},sTitle=#{title},dBeginDate=DATE_FORMAT(#{startDate},'%Y-%m-%d'),dEndDate=DATE_FORMAT(#{endDate},'%Y-%m-%d'),iStatus=1
+		where sGuid= #{id}
+	</update>
+	<update id="updateBannerExpired" parameterType="string">
+		update
+		ba_bannerinfo set iStatus=5
+		where sGuid= #{guid}
+	</update>
+
+	<update id="updateBannerPass" parameterType="string">
+		update
+		ba_bannerinfo
+		set
+		iStatus=2,sAuditPerson=#{userName},dModifyDate=NOW(),dPublishDate=NOW()
+		where sGuid= #{guid}
+	</update>
+
+	<update id="updateBannerRefuse" parameterType="string">
+		update
+		ba_bannerinfo set iStatus=4,sAuditPerson=#{userName},dModifyDate=NOW()
+		where sGuid=
+		#{guid}
+	</update>
+
+	<update id="updateBannerStop" parameterType="string">
+		update
+		ba_bannerinfo
+		set iStatus=3
+		where sGuid= #{guid}
+	</update>
+	<update id="updateBannerStart" parameterType="string">
+		update
+		ba_bannerinfo set iStatus=2
+		where sGuid= #{guid}
+	</update>
+
+	<update id="deleteBannerByIds" parameterType="string">
+		update
+		ba_bannerinfo
+		set iDelFlag=0
+		where sGuid in
+		<foreach close=")" open="(" collection="ids" item="id" index="index"
+			separator=",">
+			#{id}
+		</foreach>
+	</update>
+
+	<update id="deleteBannerById" parameterType="string">
+		update
+		ba_bannerinfo
+		set iDelFlag=0
+		where sGuid = #{guid}
+	</update>
+
+</mapper>

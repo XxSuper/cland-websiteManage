@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.maiyajf.loan.manage.loan.sys.dao.MenuDao">
+
+	<resultMap type="com.maiyajf.loan.manage.loan.sys.po.Menu"
+		id="menuList">
+		<id property="guid" column="SGUID" />
+		<result property="menuNo" column="SMENUNO" />
+		<result property="name" column="SMENUNAME" />
+		<result property="url" column="SMENUURL" />
+		<result property="title" column="SMENUTITLE" />
+		<result property="addDate" column="SADDDATE" />
+		<result property="isRoot" column="ISROOT" />
+		<result property="isLeaf" column="ISLEAF" />
+		<result property="parentId" column="SPARENTMENUID" />
+		<result property="level" column="SLEVEL" />
+		<result property="imageUrl" column="SMENUIMAGE" />
+		<result property="sMenuImage" column="SMENUIMAGE" />
+		<result property="iDelFlag" column="IDELFLAG" />
+	</resultMap>
+    <!-- 根据菜单ids获取菜单 -->
+	<select id="getMenuByIds" resultMap="menuList">
+		Select
+		*
+		from sys_menu where IDELFLAG = 1 and SGUID in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	 <!-- 获取菜单 -->
+	<select id="get" resultMap="menuList">
+		Select
+		*
+		from sys_menu where SGUID =#{id} and IDELFLAG = 1
+	</select>
+	<!-- 获取顶级菜单 -->
+	<select id="getTopMenu" resultMap="menuList">
+		select * from sys_menu where  SLEVEL=0 and IDELFLAG = 1
+	</select>
+	<!-- 获取菜单的子菜单 -->
+	<select id="getChildrenMenus" resultMap="menuList">
+		select * from
+		sys_menu where  SPARENTMENUID = #{id} and IDELFLAG = 1
+	</select>
+	<!-- 插入菜单 -->
+	<insert id="add" parameterType="com.maiyajf.loan.manage.loan.sys.po.Menu">
+		insert into
+		sys_menu(SGUID,SMENUNO,SMENUNAME,SMENUURL,SADDDATE,ISROOT,ISLEAF,SPARENTMENUID,SLEVEL,IDELFLAG,SMENUIMAGE)
+		values
+		(#{guid}, #{menuNo},
+		#{name},
+		#{url},
+		NOW(),
+		#{isRoot},
+		#{isLeaf},
+		#{parentId},
+		#{level},1,#{sMenuImage})
+	</insert>
+	<!-- 更新菜单 -->
+	<update id="update">
+		update sys_menu set
+		SMENUNAME=#{name},SMENUURL=#{url},ISLEAF=#{isLeaf},ISROOT=#{isRoot},SPARENTMENUID=#{parentId},SLEVEL=#{level},SMENUIMAGE=#{sMenuImage}
+		where SGUID = #{guid} and IDELFLAG = 1 
+
+	</update>
+	<!-- 删除菜单 -->
+	<update id="delete" parameterType="string">
+		update sys_menu set IDELFLAG=0
+		where SGUID=#{id} or SPARENTMENUID=#{id}
+	</update>
+</mapper>

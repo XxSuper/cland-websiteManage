@@ -1,0 +1,65 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util 
+		http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/tx  
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop  
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/jdbc  
+       	http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd ">
+
+	<!-- 扫描类包，应用Spring注解，将类转化为Bean,同时完成Bean的注入 -->
+	<context:component-scan base-package="com.maiyajf">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	
+	<!-- 引入配置文件 -->
+	<bean id="propertyConfigurer" 
+      class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
+            <property name="locations"> 
+                <list>
+                    <value>classpath:db.properties</value> 
+                    <value>classpath:application.properties</value> 
+                </list>
+            </property>     
+        </bean> 
+
+	<!-- 配置RestTemplate -->
+	<!--Http client Factory -->
+	<bean id="httpClientFactory"
+		class="org.springframework.http.client.SimpleClientHttpRequestFactory">
+		<property name="connectTimeout" value="${rest.connect.timeout}" />
+		<property name="readTimeout" value="${rest.read.timeout}" />
+	</bean>
+
+	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+		<constructor-arg ref="httpClientFactory" />
+	</bean>
+
+	<!-- redis缓存 -->
+	<import resource="spring-context-jedis.xml" />
+	<!-- shiro权限配置 -->
+	<import resource="spring-context-shiro.xml" />
+
+	<!-- redis缓存 -->
+	<import resource="spring-context-schedulers.xml" />
+
+	<!-- Dao。数据源配置 -->
+	<import resource="spring-context-mybatis.xml" />
+
+	
+</beans>
+
+

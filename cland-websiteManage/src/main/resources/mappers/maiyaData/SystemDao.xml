@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maiyajf.loan.manage.loan.sys.dao.SystemDao">
+	<!-- 插入登录日志 -->
+	<insert id="saveLoginLog">
+		insert into sys_userloginlog(sGuid,
+		sUserNo,
+		sUserName,
+		sLoginDate,
+		sLogoutDate,
+		sIp,
+		sCity,
+		sCreateDate)
+		values(#{sGuid},#{sUserNo},#{sUserName},#{sLoginDate},#{sLogoutDate},#{sIp},#{sCity},#{sCreateDate})
+	</insert>
+	<!-- 更新登录退出日志 -->
+	<update id="updateLoginLogForLogout">
+		update sys_userloginlog set sLogoutDate =
+		#{sLogoutDate} where sGuid = #{sGuid}
+	</update>
+	<!-- 更新最后登录时间 -->
+	<update id="updateLoginTime">
+		update sys_user set sLastLoginTime =
+		#{date} where
+		sGuid = #{userId}
+	</update>
+	<!-- 保存访问日志 -->
+	<insert id="saveAccessLog">
+		insert into sys_bgvisitrecord(sGuid,
+		sUserName,
+		sUrlAddress,
+		sPermissionNo,
+		sPermissionName,
+		sIp,
+		sCity,
+		dVisitTime,
+		sCreateDate)
+		values(#{sGuid},#{sUserName},#{sUrlAddress},#{sPermissionNo},#{sPermissionName},#{sIp},#{sCity},#{dVisitTime},#{sCreateDate})
+	</insert>
+	<!-- 保存后台管理日志 -->
+	<insert id="saveManageLog" parameterType="com.maiyajf.loan.manage.loan.sys.po.UserManagerLog">
+		insert into
+		sys_UserManagerLog(sGuid,sUserID,iOperatorType,sSrcRoles,sTargetRoles,sOperatorID,dOperatorDate)
+		values(#{sGuid},#{sUserID},#{iOperatorType},#{sSrcRoles},#{sTargetRoles},#{sOperatorID},NOW())
+	</insert>
+	<select id="getCityByIp" resultType="string">
+		SELECT scity FROM zd_ipinfolist WHERE istartnum <![CDATA[ <= ]]>
+		#{ip} AND iendNum <![CDATA[ >= ]]>
+		#{ip}
+	</select>
+	<select id="judgeFirstLogin" resultType="int">
+		SELECT count(1) from sys_userloginlog where sUserNo=#{sUserNo}
+	</select>
+	<!-- 获取表数据编号 -->
+	<select id="querySequenceNo" parameterType="java.util.Map"
+		resultType="string">
+		select fn_getseqno (#{tableName})
+	</select>
+</mapper>

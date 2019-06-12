@@ -1,0 +1,29 @@
+ol, ul { list-style: none }
+.flexslider { width: 100%; }
+.flexslider .slides > li { display: none; }
+.flexslider .slides img { max-width: 100%; display: block; margin: 0 auto; }
+.slides:after { content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0; }
+html[xmlns] .slides { display: block; }
+* html .slides { height: 1%; }
+.no-js .slides > li:first-child { display: block; }
+.flexslider { position: relative; zoom: 1; }
+.flexslider .slides { zoom: 1; width: 100%; }
+.flexslider .slides > li { position: relative; }
+.flex-caption { background: none; -ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4C000000, endColorstr=#4C000000);
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4C000000, endColorstr=#4C000000);
+zoom: 1; }
+.flex-caption { width: 96%; padding: 2%; position: absolute; left: 0; bottom: 0; background: rgba(0,0,0,.3); color: #fff; text-shadow: 0 -1px 0 rgba(0,0,0,.3); font-size: 14px; line-height: 18px; }
+.flex-direction-nav li a {width: 63px; height: 63px; position: absolute; top: 50%; margin-top: -31px; cursor: pointer; text-indent: -9999px; background:url(../images/p_n.png) no-repeat 0 0; }
+.flex-direction-nav li a.next { right: 10px; background-position: 0 -63px; }
+.flex-direction-nav li a.next:hover { background-position: 0 -188px; }
+.flex-direction-nav li a.next:active {  }
+.flex-direction-nav li a.prev { left: 10px;  }
+.flex-direction-nav li a.prev:hover {background-position: 0 -125px; }
+.flex-direction-nav li a.prev:active {  }
+.flex-direction-nav li a.disabled { opacity: .3; filter: alpha(opacity=30); cursor: default; }
+.flex-control-nav { position: absolute; bottom: 0; }
+.flex-control-nav li { display: inline-block; zoom: 1; *display:inline;
+margin-left: 10px; margin-bottom: 6px; }
+.flex-control-nav li a { display: block; width: 10px; height: 10px; background: #666; cursor: pointer; text-indent: -9999px; }
+.flex-control-nav li a:hover { background: red; }
+.flex-control-nav li a.active { background: red; cursor: default; }
