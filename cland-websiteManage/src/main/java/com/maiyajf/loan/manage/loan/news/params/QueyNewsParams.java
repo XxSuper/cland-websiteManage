@@ -24,6 +24,36 @@ public class QueyNewsParams {
 	
 	private Integer topN;
 	
+	private String searchKey;
+	
+	private String searchIType;
+	
+	private String orderByStr;
+	
+	public String getOrderByStr() {
+		return orderByStr;
+	}
+
+	public void setOrderByStr(String orderByStr) {
+		this.orderByStr = orderByStr;
+	}
+
+	public String getSearchIType() {
+		return searchIType;
+	}
+
+	public void setSearchIType(String searchIType) {
+		this.searchIType = searchIType;
+	}
+
+	public String getSearchKey() {
+		return searchKey;
+	}
+
+	public void setSearchKey(String searchKey) {
+		this.searchKey = searchKey;
+	}
+
 	public Integer getTopN() {
 		return topN;
 	}

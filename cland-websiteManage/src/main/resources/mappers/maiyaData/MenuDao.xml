@@ -28,6 +28,7 @@
 			separator="," close=")">
 			#{item}
 		</foreach>
+		ORDER BY FIELD(`sMenuNo`, 'XTCD160205000020', 'XTCD110619000035', 'XTCD130619000039', 'XTCD120619000037','XTCD100619000026','XTCD131017000019','XTCD160113000014')
 	</select>
 	 <!-- 获取菜单 -->
 	<select id="get" resultMap="menuList">
@@ -38,6 +39,7 @@
 	<!-- 获取顶级菜单 -->
 	<select id="getTopMenu" resultMap="menuList">
 		select * from sys_menu where  SLEVEL=0 and IDELFLAG = 1
+		ORDER BY FIELD(`sMenuNo`, 'XTCD160205000020', 'XTCD110619000035', 'XTCD130619000039', 'XTCD120619000037','XTCD100619000026','XTCD131017000019','XTCD160113000014')
 	</select>
 	<!-- 获取菜单的子菜单 -->
 	<select id="getChildrenMenus" resultMap="menuList">

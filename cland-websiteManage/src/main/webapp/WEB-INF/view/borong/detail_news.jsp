@@ -8,15 +8,15 @@
     <meta name="renderer" content="webkit" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
-    <title>博融智库-文章详情</title>
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
+    <title>博融智库</title>
+    <meta name="description" content="${seo.description}" />
+    <meta name="keywords" content="${seo.keywords}" />
     <link rel="stylesheet" href="${ctx}/borong/css/style.css" />
     <script src="${ctx}/borong/js/jquery.js"></script>
     <script src="${ctx}/borong/js/lib.js"></script>
 </head>
 
-<body class="bg-f5">
+<body class="">
     <!-- 头部 -->
     <div class="header">
         <div class="wp">
@@ -33,7 +33,7 @@
                         <a href="" class="v1">首页</a>
                     </li>
                     <li class="">
-                        <a href="" class="v1">咨询服务</a>
+                        <a href="" class="v1">咨询服务<i></i></a>
                         <dl>
                             <dd>
                                 <a href="">道-战略管理体系</a>
@@ -56,7 +56,7 @@
                         <a href="" class="v1">服务案例</a>
                     </li>
                     <li class="">
-                        <a href="" class="v1">博融智库</a>
+                        <a href="" class="v1">博融智库<i></i></a>
                         <dl>
                             <dd>
                                 <a href="">博融观点</a>
@@ -70,7 +70,7 @@
                         <a href="" class="v1">信息化产品</a>
                     </li>
                     <li class="">
-                        <a href="" class="v1">认识博融</a>
+                        <a href="" class="v1">认识博融<i></i></a>
                         <dl>
                             <dd>
                                 <a href="">集团简介</a>
@@ -102,12 +102,18 @@
                         </div>
                     </form>
                 </div>
+                <div class="h-so">
+                    <form action="">
+                        <input type="text" class="inp" placeholder="请在此输入您要搜索的内容或关键词">
+                        <input type="submit" class="sub" value="搜索">
+                    </form>
+                </div>
             </div>
         </div>
     </div>
     <!-- 头部 -->
     <!-- banner -->
-    <div class="ban" style="background-image: url(images/ban-2.png);">
+    <div class="ban" style="background-image: url(images/ban-h2.png);">
         <div class="txt">
             <h3>博融智库</h3>
             <p>Consultation</p>
@@ -116,74 +122,120 @@
     <!-- banner -->
     <!-- 内容 -->
     <div class="main">
-        <div class="cur">
+        <div class="g-top">
             <div class="wp">
-                当前位置：<a href="">首页</a>&nbsp;&gt;&nbsp;<a href="">服务案例</a>&nbsp;&gt;&nbsp;<span>案例详情</span>
+                <div class="search">
+                    <input type="text" class="inp" placeholder="在此输入文章关键词" />
+                    <input type="submit" class="sub" value="" />
+                </div>
+                <ul class="g-links">
+                    <li class="on"><a href="">博融观点</a></li>
+                    <li><a href="">理论本土化</a></li>
+                </ul>
             </div>
         </div>
-        <div class="row-hs1">
+        <div class="m-point" style="background-image: url(images/bgq7.jpg);">
             <div class="wp">
-                <div class="g-box1">
-                    <div class="box-txt1">
-                        <h1>这里是案例标题这里是案例标题这里是案例标题这里是案例标题</h1>
-                        <div class="info">
-                            <span>作者：东方博融</span>
-                            <span>时间：2019-03-28 14:10</span>
-                            <span>浏览：326</span>
-                        </div>
-                        <div class="txt">
-                            <p>这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容</p><br>
-                            <p>这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容</p><br>
-                            <p>这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容</p><br>
-                            <p style="text-align: center;"><img src="${ctx}/borong/images/p9.png" alt=""></p><br>
-                            <p>这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容</p>
-                        </div>
-                        <div class="txt-share">
-                            <div class="r">
-                                <span>分享：</span>
-                                <div class="bdsharebuttonbox">
-                                    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
-                                    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
-                                    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
-                                    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <ul class="ul-img1">
+                    <li>
+                        <a href="">
+                            <div class="pic">
+                                <img src="${ctx}/borong/images/h13.png" alt="" />
+                            </div>
+                            <div class="txt">
+                                <h3>这里是文章标题这里是文章标题这里是文章标题</h3>
+                                <div class="bom">
+                                    <div class="r">2019-05-10 14:10</div>
+                                    <span>文章标签</span>
                                 </div>
                             </div>
-                            <div class="lab">
-                                <span>文章标签</span>
-                                <span>文章标签</span>
-                            </div>
-                        </div>
-                        <div class="m-arrows">
-                            <div class="item">上一篇：<a href="">这里是文章标题这里是文章标题这里是文章标题</a></div>
-                            <div class="item">下一篇：<a href="">这里是文章标题这里是文章标题这里是文章标题这里是文章标题</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-read">
-                    <div class="g-htit">
-                        <h3>推荐阅读</h3>
-                    </div>
-                    <ul class="ul-listh1">
-                        <li>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
                             <div class="pic">
-                                <a href=""><img src="${ctx}/borong/images/h25.png" alt="" /></a>
+                                <img src="${ctx}/borong/images/h14.png" alt="" />
                             </div>
                             <div class="txt">
-                                <h3><a href="">这里是文章标题这里是文章标题这里是文章标题这里是文章标题</a></h3>
-                                <p>这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容</p>
+                                <h3>这里是文章标题这里是文章标题这里是文章标题</h3>
+                                <div class="bom">
+                                    <div class="r">2019-05-10 14:10</div>
+                                    <span>文章标签</span>
+                                </div>
                             </div>
-                        </li>
-                        <li>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
                             <div class="pic">
-                                <a href=""><img src="${ctx}/borong/images/h27.png" alt="" /></a>
+                                <img src="${ctx}/borong/images/h15.png" alt="" />
                             </div>
                             <div class="txt">
-                                <h3><a href="">这里是文章标题这里是文章标题这里是文章标题这里是文章标题</a></h3>
-                                <p>这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容这里是文章内容</p>
+                                <h3>这里是文章标题这里是文章标题这里是文章标题</h3>
+                                <div class="bom">
+                                    <div class="r">2019-05-10 14:10</div>
+                                    <span>文章标签</span>
+                                </div>
                             </div>
-                        </li>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <div class="pic">
+                                <img src="${ctx}/borong/images/picq22.jpg" alt="" />
+                            </div>
+                            <div class="txt">
+                                <h3>这里是文章标题这里是文章标题这里是文章标题</h3>
+                                <div class="bom">
+                                    <div class="r">2019-05-10 14:10</div>
+                                    <span>文章标签</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <div class="pic">
+                                <img src="${ctx}/borong/images/picq23.jpg" alt="" />
+                            </div>
+                            <div class="txt">
+                                <h3>这里是文章标题这里是文章标题这里是文章标题</h3>
+                                <div class="bom">
+                                    <div class="r">2019-05-10 14:10</div>
+                                    <span>文章标签</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <div class="pic">
+                                <img src="${ctx}/borong/images/picq24.jpg" alt="" />
+                            </div>
+                            <div class="txt">
+                                <h3>这里是文章标题这里是文章标题这里是文章标题</h3>
+                                <div class="bom">
+                                    <div class="r">2019-05-10 14:10</div>
+                                    <span>文章标签</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <!--页码-->
+                <div class="pages">
+                    <ul>
+                        <li class="prev"><a href="">上一页</a></li>
+                        <li class="on"><a href="">1</a></li>
+                        <li><a href="">2</a></li>
+                        <li><a href="">3</a></li>
+                        <li><span>...</span></li>
+                        <li><a href="">9</a></li>
+                        <li><a href="">10</a></li>
+                        <li class="next"><a href="">下一页</a></li>
                     </ul>
                 </div>
+                <!--页码end-->
             </div>
         </div>
     </div>
@@ -253,30 +305,6 @@
         </div>
     </div>
     <!-- 底部 -->
-    <script>
-        window._bd_share_config = {
-            "common": {
-                "bdSnsKey": {},
-                "bdText": "",
-                "bdMini": "2",
-                "bdMiniList": false,
-                "bdPic": "",
-                "bdStyle": "0",
-                "bdSize": "16"
-            },
-            "share": {},
-            "image": {
-                "viewList": ["weixin", "sqq", "qzone", "tsina"],
-                "viewText": "分享到：",
-                "viewSize": "32"
-            },
-            "selectShare": {
-                "bdContainerClass": null,
-                "bdSelectMiniList": ["weixin", "sqq", "qzone", "tsina"]
-            }
-        };
-        with(document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
-    </script>
 </body>
 
 </html>

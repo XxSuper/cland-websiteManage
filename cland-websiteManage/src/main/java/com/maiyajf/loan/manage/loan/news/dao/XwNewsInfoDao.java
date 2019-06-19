@@ -1,6 +1,7 @@
 package com.maiyajf.loan.manage.loan.news.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -53,5 +54,20 @@ public interface XwNewsInfoDao {
 	public XwNewsInfoBean showNewsInfo(String sGuid);
 	
 	public void deleteAll(@Param("sNewsNos")List<String> sNewsNos);
+	
+	//查询访问量
+	public Integer selectVisitCount(@Param("sNewsNo")String sNewsNo);
+	
+	public void saveVisit(Map<String,String> param);
+	
+	public void updateVisit(@Param("sNewsNo")String sNewsNo);
+	
+	public XwNewsInfoBean queryPreNews(Map<String,Object> param);
+	
+	public XwNewsInfoBean queryNextNews(Map<String,Object> param);
+	
+	public Map<String,String> querySeo();
+	
+	public void updateSeo(Map<String,String> param);
 
 }

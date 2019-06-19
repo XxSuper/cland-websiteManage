@@ -8,7 +8,7 @@
     <meta name="renderer" content="webkit" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
-    <title>关于我们</title>
+    <title>博融新闻</title>
     <meta name="description" content="${seo.description}" />
     <meta name="keywords" content="${seo.keywords}" />
     <link rel="stylesheet" href="${ctx}/borong/css/style.css" />
@@ -23,32 +23,29 @@
     <!-- banner -->
     <div class="ban" style="background-image: url(${ctx}/borong/images/ban-h2.png);">
         <div class="txt">
-            <h3>关于我们</h3>
-            <p>About</p>
+            <h3>博融新闻</h3>
+            <p>News</p>
         </div>
     </div>
     <!-- banner -->
     <!-- 内容 -->
     <div class="main">
-        <ul class="g-links">
-            <li><a href="companyInfo.htm">集团简介</a></li>
-            <li><a href="xinwen.htm">博融新闻</a></li>
-            <li><a href="borongTeam.htm">博融团队</a></li>
-            <li class="on"><a href="rongyuzhengshu.htm">博融荣誉</a></li>
-            <li><a href="zhaoxian.htm">招贤纳士</a></li>
-        </ul>
-        <div class="m-h4">
+        <div class="m-point" style="background-image: url(${ctx}/borong/images/bgq7.jpg);">
             <div class="wp">
-                <div class="g-titq1">
-                    <h3><span>荣誉资质</span></h3>
-                    <em>honor</em>
-                </div>
-                <ul class="ul-imgtxtq4">
+                <ul class="ul-img1">
                 	<c:forEach items="${pageInfo.page.list}" var="pageData" varStatus="varStatus">
                 		<li>
-	                        <a href="#javascript:0">
-	                            <div class="pic"><img src="${pageData.sMediaImage }" onclick="window.open(this.src,'_blank')" alt=""></div>
-	                            <h3>${pageData.sTitle}</h3>
+	                        <a href="lifeDetail.htm?iType=2&&sNewsNo=${pageData.sNewsNo }">
+	                            <div class="pic">
+	                                <img src="${pageData.sBannerImage}" alt="" />
+	                            </div>
+	                            <div class="txt">
+	                                <h3>${pageData.sTitle}</h3>
+	                                <div class="bom">
+	                                    <div class="r">${pageData.dModifyDate}</div>
+	                                    <span>${pageData.remark}</span>
+	                                </div>
+	                            </div>
 	                        </a>
 	                    </li>
                 	</c:forEach>
@@ -56,19 +53,19 @@
                 <!--页码-->
                 <div class="pages">
                     <ul>
-                        <li class="prev"><a href="rongyuzhengshu.htm?pageNumber=${pageInfo.prePage}">上一页</a></li>
+                        <li class="prev"><a href="" onclick="gotoPage(${queryType},${pageInfo.prePage})">上一页</a></li>
                         <c:forEach items="${pageInfo.pNos}" var="pNo">
                         	<c:if test="${pNo == pageInfo.pageNumber}">
-                        		<li class="on"><a href="rongyuzhengshu.htm?pageNumber=${pNo}">${pNo}</a></li>
+                        		<li class="on"><a href="" onclick="gotoPage(${queryType},${pNo})">${pNo}</a></li>
                         	</c:if>
                         	<c:if test="${pNo != pageInfo.pageNumber && pNo != '...'}">
-                        		<li><a href="rongyuzhengshu.htm?pageNumber=${pNo}">${pNo}</a></li>
+                        		<li><a href=""  onclick="gotoPage(${queryType},${pNo})">${pNo}</a></li>
                         	</c:if>
                         	<c:if test="${pNo == '...'}">
                         		<li><a href="javascript:void(0);">${pNo}</a></li>
                         	</c:if>
                         </c:forEach>
-                        <li class="next"><a href="rongyuzhengshu.htm?pageNumber=${pageInfo.nextPage}">下一页</a></li>
+                        <li class="next"><a href="" onclick="gotoPage(${queryType},${pageInfo.nextPage})">下一页</a></li>
                     </ul>
                 </div>
                 <!--页码end-->
@@ -80,5 +77,22 @@
     <%@ include file="common_foot.jsp"%>
     <!-- 底部 -->
 </body>
-
+<script type="text/javascript">
+function search(){
+	var searchKey = $('#searchKey').val();
+	var keyPath = "";
+	if(searchKey){
+		keyPath = "searchKey=" + searchKey;
+	}
+	window.location.href="xinwen.htm?" + keyPath;
+}
+function gotoPage(queryType, pageNumber){
+	var searchKey = $('#searchKey').val();
+	var keyPath = "";
+	if(searchKey){
+		keyPath = "&searchKey=" + searchKey;
+	}
+	window.location.href="xinwen.htm?pageNumber="+pageNumber + keyPath;
+}
+</script>
 </html>

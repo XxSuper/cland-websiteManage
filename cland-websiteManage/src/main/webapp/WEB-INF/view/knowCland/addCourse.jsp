@@ -16,8 +16,8 @@
     <li>
         <a href="javascript:void(0)">
             <c:choose>
-                <c:when test="${operate == 'add'}">博荣历程新增管理</c:when>
-                <c:when test="${operate == 'edit'}">博荣历程编辑管理</c:when>
+                <c:when test="${operate == 'add'}">博融历程新增管理</c:when>
+                <c:when test="${operate == 'edit'}">博融历程编辑管理</c:when>
             </c:choose>
         </a>
     </li>

@@ -31,4 +31,18 @@ public interface NewsInfoService {
 	public AjaxResult setHomeDisplay(XwNewsInfoBean newsInfoParams);
 	
 	public List<XwNewsInfoBean> queryTopNews(QueyNewsParams params);
+	
+	public Map<String, Object> queryPageNews(QueyNewsParams params, Integer pageNumber, Integer pageSize);
+	
+	public int queryVisit(String newsNo);
+	
+	public XwNewsInfoBean queryPreNews(String iType, int iSortNum);
+	
+	public XwNewsInfoBean queryNextNews(String iType, int iSortNum);
+	
+	public XwNewsInfoBean getByNo(String sNewsNo);
+	
+	public Map<String,String> querySeo();
+	
+	public void updateSeo(Map<String,String> param);
 }

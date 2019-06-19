@@ -114,6 +114,7 @@ $(document).ready(function() {
                         item.html.find('.progress-bar2').fadeOut(400);
                     }, 400);
                 	$('#sBannerImage').val(data.url);
+                	$('#yl_image').attr('src',data.url);
             	}else {
             		var progressBar = item.html.find('.progress-bar2');
     				
@@ -219,6 +220,7 @@ $(document).ready(function() {
 				success : function(result) {
 					if (result.code == 0) {
 						$('#sBannerImage').val("");
+						$('#yl_image').attr('src',"");
 					} else {
 						BootstrapDialog.alert(result.message);
 					}

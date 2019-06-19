@@ -76,6 +76,15 @@ public class XwNewsInfoBean {
 	
 	private String remark;
 	
+	private String sWriter;
+
+	public String getsWriter() {
+		return sWriter;
+	}
+
+	public void setsWriter(String sWriter) {
+		this.sWriter = sWriter;
+	}
 
 	public String getRemark() {
 		return remark;

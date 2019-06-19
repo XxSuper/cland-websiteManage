@@ -12,7 +12,7 @@
 	<ul class="breadcrumb">
 		<li><i class="icon-home"></i> <a href="${ctx}/sys/index.htm">首页</a>
 			<i class="icon-angle-right"></i></li>
-		<li><a href="javascript:void(0)">博荣产业管理</a></li>
+		<li><a href="javascript:void(0)">博融产业管理</a></li>
 	</ul>
 	
 	<div >

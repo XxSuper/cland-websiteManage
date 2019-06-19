@@ -118,4 +118,30 @@ public class CommomPageManageController {
 		AccessLogger.info("置为首页展示：", "newsInfoParams:" + newsInfoParams.toString(), DateUtils.getCurrentTime());
 		return newsInfoService.setHomeDisplay(newsInfoParams);
 	}
+	
+	@RequestMapping(value = "showSeo.htm")
+	public ModelAndView showSeo(){
+		Map<String,String> res = newsInfoService.querySeo();
+		
+		ModelAndView model = new ModelAndView();
+		model.addObject("seo", res);
+		model.setViewName("commonpage/showSeo");
+		return model;
+	}
+	
+	@RequestMapping(value = "updateSeo.htm")
+	public ModelAndView updateSeo(String keywords, String description){
+		
+		Map<String,String> param = new HashMap<String,String>();
+		param.put("keywords", keywords);
+		param.put("description", description);
+		newsInfoService.updateSeo(param);
+		
+		Map<String,String> res = newsInfoService.querySeo();
+		
+		ModelAndView model = new ModelAndView();
+		model.addObject("seo", res);
+		model.setViewName("commonpage/showSeo");
+		return model;
+	}
 }

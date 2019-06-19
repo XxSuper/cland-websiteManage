@@ -3,10 +3,12 @@
  */
 package com.maiyajf.loan.manage.loan.news.service.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -81,6 +83,11 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		model.put("newsInfo", params);
 		return model;
 	}
+	
+	public XwNewsInfoBean getByNo(String sNewsNo) {
+		XwNewsInfoBean params = newsInfoDao.showNewsInfo(sNewsNo);
+		return params;
+	}
 
 	@Override
 	public void deleteAllNews(String[] sNewsNos) {
@@ -111,5 +118,96 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	public List<XwNewsInfoBean> queryTopNews(QueyNewsParams params) {
 		List<XwNewsInfoBean> list = newsInfoDao.queryTopNByParam(params);
 		return list;
+	}
+	
+	public Map<String, Object> queryPageNews(QueyNewsParams params, Integer pageNumber, Integer pageSize) {
+		if(pageSize == null || pageSize == 0){
+			pageSize = 1;
+		}
+		Map<String, Object> model = new HashMap<String, Object>();
+		Integer total = newsInfoDao.count(params);// 总计录数
+		Pager<XwNewsInfoBean> page = new Pager<XwNewsInfoBean>(total, pageNumber);
+		params.setRecordStart((pageNumber - 1) * pageSize);
+		params.setRecordEnd(pageSize * pageNumber);
+		List<XwNewsInfoBean> l = newsInfoDao.queryNews(params);
+		page.setList(l);
+		model.put("total", total);
+		model.put("page", page); // 对应页面的信息
+		model.put("queryParams", params);// 页面查询条件
+		List<String> showPage = new ArrayList<String>();
+		int totalPage = 1;
+		if(total % pageSize > 0){
+			totalPage = total/pageSize + 1;
+		}else{
+			totalPage = total/pageSize;
+		}
+		if(totalPage <= 6) {
+			for(int i = 1;i<=totalPage;i++){
+				showPage.add(String.valueOf(i));
+			}
+		}else{
+			if(totalPage - pageNumber <= 2){
+				showPage = Arrays.asList(new String[]{"1","2","...",String.valueOf(totalPage-2),String.valueOf(totalPage-1),String.valueOf(totalPage)});
+			}else if(pageNumber <= 2){
+				showPage = Arrays.asList(new String[]{"1","2","3","...",String.valueOf(totalPage-1),String.valueOf(totalPage)});
+			}else{
+				showPage = Arrays.asList(new String[]{"1","...",String.valueOf(pageNumber-1),String.valueOf(pageNumber),String.valueOf(pageNumber+1),"...",String.valueOf(totalPage)});
+			}
+		}
+		model.put("pNos", showPage);
+		int prePage = 1;
+		int nextPage = totalPage;
+		if(pageNumber <= 1){
+			prePage = 1;
+		}else{
+			prePage = pageNumber -1;
+		}
+		if(pageNumber < totalPage){
+			nextPage = pageNumber + 1;
+		}
+		model.put("pageNumber", String.valueOf(pageNumber));
+		model.put("prePage", prePage);
+		model.put("nextPage", nextPage);
+		return model;
+	}
+	
+	public int queryVisit(String newsNo){
+		Integer value = newsInfoDao.selectVisitCount(newsNo);
+		if(null == value){
+			Map<String,String> param = new HashMap<String,String>();
+			param.put("sGuid", UUID.randomUUID().toString());
+			param.put("sNewsNo", newsNo);
+			newsInfoDao.saveVisit(param);
+			return 1;
+		}else{
+			newsInfoDao.updateVisit(newsNo);
+			return value+1;
+		}
+	}
+	
+	public XwNewsInfoBean queryPreNews(String iType, int iSortNum){
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("iType", iType);
+		param.put("iSortNum", iSortNum);
+		XwNewsInfoBean params = newsInfoDao.queryPreNews(param);
+		return params;
+	}
+	
+	public XwNewsInfoBean queryNextNews(String iType, int iSortNum){
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("iType", iType);
+		param.put("iSortNum", iSortNum);
+		XwNewsInfoBean params = newsInfoDao.queryNextNews(param);
+		return params;
+	}
+
+	@Override
+	public Map<String, String> querySeo() {
+		return newsInfoDao.querySeo();
+	}
+
+	@Override
+	public void updateSeo(Map<String, String> param) {
+		newsInfoDao.updateSeo(param);
 	}
 }

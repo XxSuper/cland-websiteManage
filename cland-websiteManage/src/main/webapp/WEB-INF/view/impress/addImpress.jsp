@@ -13,8 +13,8 @@
 			<li>
 				<a href="javascript:void(0)">
 					<c:choose>
-						<c:when test="${operate == 'add'}">印象博荣新增管理</c:when>
-						<c:when test="${operate == 'edit'}">印象博荣编辑管理</c:when>
+						<c:when test="${operate == 'add'}">印象博融新增管理</c:when>
+						<c:when test="${operate == 'edit'}">印象博融编辑管理</c:when>
 					</c:choose>
 				</a>
 			</li>

@@ -14,7 +14,7 @@
 
 			<div class="footer-inner" style="text-align: center;float:none; width:90%">
 
-			博荣官网管理系统
+			博融官网管理系统
 
 			</div>
 

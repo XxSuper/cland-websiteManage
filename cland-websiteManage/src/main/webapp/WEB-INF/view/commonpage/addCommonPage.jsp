@@ -15,9 +15,10 @@
 	<c:set var="titleName" value="姓名"></c:set>
 	<c:set var="remarkName" value="职位"></c:set>
 </c:if>
-<c:if test="${iType == 7}">
+<c:if test="${iType == 7 || iType == 12}">
 	<c:set var="pageName" value="服务案例"></c:set>
 	<c:set var="titleName" value="服务对象"></c:set>
+	<c:set var="remarkName" value="标签"></c:set>
 </c:if>
 <c:if test="${iType == 8}">
 	<c:set var="pageName" value="服务概述"></c:set>
@@ -37,7 +38,7 @@
 	<c:set var="titleName" value="核心能力"></c:set>
 </c:if>
 <c:if test="${iType == 13}">
-	<c:set var="pageName" value="博荣招聘"></c:set>
+	<c:set var="pageName" value="博融招聘"></c:set>
 	<c:set var="titleName" value="职位"></c:set>
 	<c:set var="remarkName" value="招聘标签"></c:set>
 </c:if>
@@ -106,6 +107,15 @@
      					 <input  type="text" id="sTitle"  name="sTitle"  placeholder="" maxlength="100" value="${newsInfo.sTitle}">
     				</div>
  			 </div>
+ 			 
+ 			 <c:if test="${iType == 7 || iType == 12 || iType == 14}">
+ 			 	<div class="control-group">
+	    			<label class="control-label" for="sWriter">作者</label>
+	  					  <div class="controls">
+	     					 <input  type="text" id="sWriter"  name="sWriter"  placeholder="" maxlength="100" value="${newsInfo.sWriter}">
+	    				</div>
+	 			 </div>
+ 			 </c:if>
 <!--  			 团队介绍不包含时间 -->
  			 <c:if test="${iType == 2}">
 	 			 <div class="control-group">
@@ -118,7 +128,7 @@
 	    				</div>
 	 			 </div>
 			</c:if>
-			<c:if test="${iType == 4 || iType == 9 || iType == 13 || iType == 14 || iType == 15 || iType == 16 || iType == 17}">
+			<c:if test="${iType == 4 || iType == 7 || iType == 12 || iType == 9 || iType == 13 || iType == 14 || iType == 15 || iType == 16 || iType == 17}">
 				<div class="control-group">
 	    			<label class="control-label" for="sTitle">${remarkName }</label>
   					  <div class="controls">
@@ -126,13 +136,22 @@
     				</div>
 	 			 </div>
 			</c:if>
-			<c:if test="${iType == 1 || iType == 2 || iType == 4 || iType == 7 || iType == 8 || iType == 9 || iType == 10 || iType == 11 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
+			<c:if test="${iType == 1 || iType == 2 || iType == 4 || iType == 7 || iType == 12 || iType == 8 || iType == 9 || iType == 10 || iType == 11 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
 				<div class="control-group">
 	    			<label class="control-label" for="">banner图</label>
 	  					  <div class="controls" >
 	     					<input type="hidden" id="sBannerImage" name="sBannerImage" value="${newsInfo.sBannerImage}" >
 							<input type="file" id="sBannerImageFile" name="sBannerImageFile">
 	    				</div>
+	 			 </div>
+	 			 <div class="control-group">
+	 			 	<label  class="control-label">预览图：</label>
+	 			 	<c:if test="${not empty newsInfo.sBannerImage}">
+	 			 		<img alt="" src="${newsInfo.sBannerImage}" style="width:400px;" id="yl_image">
+	 			 	</c:if>
+	 			 	<c:if test="${empty newsInfo.sBannerImage}">
+	 			 		<img alt="" src="" style="width:400px;" id="yl_image">
+	 			 	</c:if>
 	 			 </div>
 				
 				<style>

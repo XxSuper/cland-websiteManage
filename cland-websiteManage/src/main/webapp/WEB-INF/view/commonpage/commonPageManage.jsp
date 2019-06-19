@@ -31,12 +31,12 @@
 	<c:set var="titleName" value="核心能力"></c:set>
 </c:if>
 <c:if test="${iType == 13}">
-	<c:set var="pageName" value="博荣招聘"></c:set>
+	<c:set var="pageName" value="博融招聘"></c:set>
 	<c:set var="titleName" value="职位"></c:set>
 	<c:set var="remarkName" value="招聘标签"></c:set>
 </c:if>
 <c:if test="${iType == 14}">
-	<c:set var="pageName" value="博荣生活"></c:set>
+	<c:set var="pageName" value="博融生活"></c:set>
 	<c:set var="titleName" value="标题"></c:set>
 	<c:set var="remarkName" value="标签"></c:set>
 	<c:set var="dateName" value="创建时间"></c:set>
@@ -57,9 +57,10 @@
 	<c:set var="remarkName" value="标签"></c:set>
 	<c:set var="dateName" value="创建时间"></c:set>
 </c:if>
-<c:if test="${iType == 7}">
+<c:if test="${iType == 7 || iType == 12}">
 	<c:set var="pageName" value="服务案例"></c:set>
 	<c:set var="titleName" value="服务对象"></c:set>
+	<c:set var="remarkName" value="标签"></c:set>
 </c:if>
 
 	<!--页面标题-->
@@ -100,11 +101,15 @@
 						<th style='width:10%'>${dateName }</th>
 					</c:if>
 					<th style='width:10%'>${titleName}</th>
-					<c:if test="${iType == 4 || iType == 9 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
+					<c:if test="${iType == 7 || iType == 12 || iType == 14}">
+						<th style='width:10%'>作者</th>
+					</c:if>
+					
+					<c:if test="${iType == 4 || iType == 7 || iType == 12 || iType == 9 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
 						<th style='width:15%'>${remarkName}</th>
 					</c:if>
 					
-					<c:if test="${iType == 1 || iType == 2 || iType == 4 || iType == 7 || iType == 8 || iType == 9 || iType == 10 || iType == 11 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
+					<c:if test="${iType == 1 || iType == 2 || iType == 4 || iType == 7 || iType == 12 || iType == 8 || iType == 9 || iType == 10 || iType == 11 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
 						<th style='width:10%'>图片</th>
 						<th style='width:18%'>简介</th>
 					</c:if>
@@ -127,10 +132,13 @@
 							<td>${newinfo.dModifyDate}</td>
 						</c:if>
 						<td>${newinfo.sTitle}</td>
-						<c:if test="${iType == 4 || iType == 9 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
+						<c:if test="${iType == 7 || iType == 12 || iType == 14}">
+							<td>${newinfo.sWriter}</td>
+						</c:if>
+						<c:if test="${iType == 4 || iType == 7 || iType == 12 || iType == 9 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
 							<td>${newinfo.remark}</td>
 						</c:if>
-						<c:if test="${iType == 1 || iType == 2 || iType == 4 || iType == 7 || iType == 8 || iType == 9 || iType == 10 || iType == 11 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
+						<c:if test="${iType == 1 || iType == 2 || iType == 4 || iType == 7 || iType == 12 || iType == 8 || iType == 9 || iType == 10 || iType == 11 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
 							<td>
 								<c:if test="${not empty newinfo.sBannerImage}">
 									<img src="${newinfo.sBannerImage}" style='height:30px;' />

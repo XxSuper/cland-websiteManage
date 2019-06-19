@@ -48,6 +48,15 @@
   					 	<input type="text" id="sLinkUrl" name="sLinkUrl"  maxlength="200" value="${newsInfo.sLinkUrl}"/>
     				</div>
  			 </div>  
+ 			 <div class="control-group">
+ 			 	<label  class="control-label">预览图：</label>
+ 			 	<c:if test="${not empty newsInfo.sBannerImage}">
+ 			 		<img alt="" src="${newsInfo.sBannerImage}" style="width:400px;" id="yl_image">
+ 			 	</c:if>
+ 			 	<c:if test="${empty newsInfo.sBannerImage}">
+ 			 		<img alt="" src="" style="width:400px;" id="yl_image">
+ 			 	</c:if>
+ 			 </div>
 			<div class="control-group">
 			    <label class="control-label" for=""> </label>
 			    <div class="controls">

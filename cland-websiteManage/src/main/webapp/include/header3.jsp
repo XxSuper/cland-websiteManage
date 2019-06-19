@@ -61,7 +61,7 @@
 	});
 </script>
 <script src="${ctx}/js/common/common.js"></script>
-<title>博荣官网管理系统</title>
+<title>博融官网管理系统</title>
 <body class="page-header-fixed page-footer-fixed">
 <div class="header navbar navbar-inverse navbar-fixed-top">
 

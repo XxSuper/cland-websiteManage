@@ -102,7 +102,7 @@
 
 <!-- <link type="text/css" rel="stylesheet" href="${ctx }/css/login.css" />
  -->
-<title>博荣官网管理系统</title>
+<title>博融官网管理系统</title>
 </head>
 <body class="login">
 <style>
@@ -120,7 +120,7 @@
 
 		<form class="form-vertical login-form" action="${ctx}/sys/dologin.htm" method="post" name="myForm">
 
-			<h3 class="form-title">博荣官网管理系统</h3>
+			<h3 class="form-title">博融官网管理系统</h3>
 			<c:choose>
 				<c:when test="${not empty message_login}">
 					<div class="alert alert-error show" id='alert-error' style='padding:2px 5px 2px 14px'>${message_login}</div>

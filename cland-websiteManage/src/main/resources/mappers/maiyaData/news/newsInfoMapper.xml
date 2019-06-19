@@ -3,12 +3,12 @@
 <mapper namespace="com.maiyajf.loan.manage.loan.news.dao.XwNewsInfoDao">
 	<sql id="fields">
 		sNewsNo,iType,sTitle,sIntroduce,sMediaImage,sBannerImage,sLinkUrl,
-		sNewContent,iHomeDisplay,iSortNum,sModularId,dPublishDate,dModifyDate,iDelFlag,remark
+		sNewContent,iHomeDisplay,iSortNum,sModularId,dPublishDate,dModifyDate,iDelFlag,remark,sWriter
 	</sql>
 	
 	<sql id="queryfields">
 		sNewsNo,iType,sTitle,sIntroduce,sMediaImage,sBannerImage,sLinkUrl,
-		sNewContent,iHomeDisplay,iSortNum,sModularId,date_format(dPublishDate, '%Y-%m-%d') dPublishDate,date_format(dModifyDate, '%Y-%m-%d %H:%i:%s') dModifyDate,iDelFlag,remark
+		sNewContent,iHomeDisplay,iSortNum,sModularId,date_format(dPublishDate, '%Y-%m-%d') dPublishDate,date_format(dModifyDate, '%Y-%m-%d %H:%i:%s') dModifyDate,iDelFlag,remark,sWriter
 	</sql>
 	
 	<insert id="save" parameterType="XwNewsInfoBean">
@@ -16,7 +16,7 @@
 		<include refid="fields" />
 		) values
 		(#{sNewsNo},#{iType},#{sTitle},#{sIntroduce},#{sMediaImage},#{sBannerImage},#{sLinkUrl},#{sNewContent},
-		#{iHomeDisplay},#{iSortNum},#{sModularId},#{dPublishDate},sysDate(),1,#{remark})
+		#{iHomeDisplay},#{iSortNum},#{sModularId},#{dPublishDate},sysDate(),1,#{remark},#{sWriter})
 	</insert>
 	
 	<update id="update" parameterType="XwNewsInfoBean">
@@ -33,6 +33,7 @@
 			  <if test="dPublishDate != null">dPublishDate = #{dPublishDate},</if>
 			  <if test="sModularId != null">sModularId = #{sModularId},</if>
 			  <if test="remark != null">remark = #{remark},</if>
+			  <if test="sWriter != null">sWriter = #{sWriter},</if>
 			  dModifyDate = sysDate(),
 			</trim>
 		 WHERE sNewsNo = #{sNewsNo}	
@@ -42,21 +43,31 @@
 		resultType="XwNewsInfoBean">
 		SELECT <include refid="queryfields" /> FROM xw_newsinfo WHERE iDelFlag = 1
 		<if test="iType != null and iType != ''.toString()">and iType = #{iType} </if>
+		<if test="searchIType != null and searchIType != ''.toString()">and iType in (${searchIType}) </if>
+		<if test="searchKey != null and searchKey != ''.toString()">and (sNewContent like CONCAT('%',#{searchKey},'%') or sTitle like CONCAT('%',#{searchKey},'%')) </if>
 		<if test="sModularId != null and sModularId != ''.toString()">and sModularId = #{sModularId} </if>
-		order by iSortNum desc  LIMIT #{recordStart},#{recordEnd}
+		<if test="orderByStr != null and orderByStr != ''.toString()">order by ${orderByStr}</if>
+		<if test="orderByStr == null or orderByStr == ''.toString()">order by iSortNum desc</if>
+		 LIMIT #{recordStart},#{recordEnd}
 	</select>
 
 	<select id="queryNewsNoPage" parameterType="QueyNewsParams"
 		resultType="XwNewsInfoBean">
 		SELECT <include refid="queryfields" /> FROM xw_newsinfo WHERE iDelFlag = 1
 		<if test="iType != null and iType != ''.toString()">and iType = #{iType} </if>
+		<if test="searchIType != null and searchIType != ''.toString()">and iType in (${searchIType}) </if>
+		<if test="searchKey != null and searchKey != ''.toString()">and (sNewContent like CONCAT('%',#{searchKey},'%') or sTitle like CONCAT('%',#{searchKey},'%')) </if>
 		<if test="iHomeDisplay != null and iHomeDisplay != ''.toString()">and iHomeDisplay = #{iHomeDisplay} </if>
-		order by iSortNum desc
+		<if test="orderByStr != null and orderByStr != ''.toString()">order by ${orderByStr}</if>
+		<if test="orderByStr == null or orderByStr == ''.toString()">order by iSortNum desc</if>
+		
 	</select>
 
 	<select id="count" parameterType="QueyNewsParams" resultType="java.lang.Integer">
 		SELECT COUNT(*) FROM xw_newsinfo WHERE iDelFlag = 1
 		<if test="iType != null and iType != ''">and iType = #{iType}  </if>
+		<if test="searchIType != null and searchIType != ''.toString()">and iType in (${searchIType}) </if>
+		<if test="searchKey != null and searchKey != ''.toString()">and (sNewContent like CONCAT('%',#{searchKey},'%') or sTitle like CONCAT('%',#{searchKey},'%')) </if>
 	</select>
 
 	<select id="getMaxSortNum" parameterType="XwNewsInfoBean" resultType="java.lang.Integer">
@@ -90,4 +101,45 @@
 		order by iSortNum asc
 		<if test="topN != null and topN != ''.toString()">limit #{topN} </if>
 	</select>
+	
+	<select id="selectVisitCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select visitCount from news_visit where sNewsNo = #{sNewsNo}
+	</select>
+	
+	<insert id="saveVisit" parameterType="java.util.Map">
+		insert into news_visit(
+		sGuid, sNewsNo, visitCount
+		) values
+		(#{sGuid}, #{sNewsNo}, 1)
+	</insert>
+	
+	<update id="updateVisit">
+			update news_visit set visitCount = visitCount + 1 where sNewsNo = #{sNewsNo}
+	</update>
+	
+	<select id="queryPreNews" parameterType="java.util.Map" resultType="XwNewsInfoBean">
+		select <include refid="queryfields" />
+		from xw_newsinfo t 
+		where iDelFlag = 1 and iType = #{iType}
+		<![CDATA[ and t.iSortNum < #{iSortNum} ]]>
+		order by iSortNum desc
+		limit 1
+	</select>
+	
+	<select id="queryNextNews" parameterType="java.util.Map" resultType="XwNewsInfoBean">
+		select <include refid="queryfields" />
+		from xw_newsinfo t 
+		where iDelFlag = 1 and iType = #{iType}
+		<![CDATA[ and t.iSortNum > #{iSortNum} ]]>
+		order by iSortNum asc
+		limit 1
+	</select>
+	
+	<select id="querySeo" resultType="java.util.Map">
+		select sGuid, title, keywords, description from t_seo
+	</select>
+	
+	<update id="updateSeo" parameterType="java.util.Map">
+		update t_seo set keywords = #{keywords}, description = #{description}
+	</update>
 </mapper>
