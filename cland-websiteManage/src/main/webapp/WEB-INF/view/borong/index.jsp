@@ -31,67 +31,67 @@
             <div class="hdr">
                 <ul class="nav">
                     <li class="">
-                        <a href="" class="v1">首页</a>
+                        <a href="${ctx}/gw/index.htm" class="v1">首页</a>
                     </li>
                     <li class="">
-                        <a href="" class="v1">咨询服务</a>
+                        <a href="${ctx}/gw/detailCP.htm" class="v1">咨询服务</a>
                         <dl>
                             <dd>
-                                <a href="">道-战略管理体系</a>
+                                <a href="${ctx}/gw/index.htm">道-战略管理体系</a>
                             </dd>
                             <dd>
-                                <a href="">术-内部组织管理体系</a>
+                                <a href="${ctx}/gw/index.htm">术-内部组织管理体系</a>
                             </dd>
                             <dd>
-                                <a href="">法-流程绩效体系</a>
+                                <a href="${ctx}/gw/index.htm">法-流程绩效体系</a>
                             </dd>
                             <dd>
-                                <a href="">器-信息化建设体系</a>
+                                <a href="${ctx}/gw/index.htm">器-信息化建设体系</a>
                             </dd>
                             <dd>
-                                <a href="">财-投融资咨询</a>
+                                <a href="${ctx}/gw/index.htm">财-投融资咨询</a>
                             </dd>
                         </dl>
                     </li>
                     <li class="">
-                        <a href="" class="v1">服务案例</a>
+                        <a href="${ctx}/gw/serviceList.htm" class="v1">服务案例</a>
                     </li>
                     <li class="">
-                        <a href="" class="v1">博融智库</a>
+                        <a href="${ctx}/gw/zhiku.htm" class="v1">博融智库</a>
                         <dl>
                             <dd>
-                                <a href="">博融观点</a>
+                                <a href="${ctx}/gw/index.htm">博融观点</a>
                             </dd>
                             <dd>
-                                <a href="">理论本土化</a>
+                                <a href="${ctx}/gw/index.htm">理论本土化</a>
                             </dd>
                         </dl>
                     </li>
                     <li class="">
-                        <a href="" class="v1">信息化产品</a>
+                        <a href="${ctx}/gw/index.htm" class="v1">信息化产品</a>
                     </li>
                     <li class="">
-                        <a href="" class="v1">认识博融</a>
+                        <a href="${ctx}/gw/index.htm" class="v1">认识博融</a>
                         <dl>
                             <dd>
-                                <a href="">集团简介</a>
+                                <a href="${ctx}/gw/companyInfo.htm">集团简介</a>
                             </dd>
                             <dd>
-                                <a href="">博融新闻</a>
+                                <a href="${ctx}/gw/newsDetail.htm">博融新闻</a>
                             </dd>
                             <dd>
-                                <a href="">博融团队</a>
+                                <a href="${ctx}/gw/borongTeam.htm">博融团队</a>
                             </dd>
                             <dd>
-                                <a href="">博融荣誉</a>
+                                <a href="${ctx}/gw/rongyuzhengshu.htm.htm">博融荣誉</a>
                             </dd>
                             <dd>
-                                <a href="">招贤纳士</a>
+                                <a href="${ctx}/gw/zhaoxian.htm">招贤纳士</a>
                             </dd>
                         </dl>
                     </li>
                     <li class="">
-                        <a href="" class="v1">联系博融</a>
+                        <a href="${ctx}/gw/lianxiborong.htm.htm" class="v1">联系博融</a>
                     </li>
                 </ul>
                 <div class="sobox">
