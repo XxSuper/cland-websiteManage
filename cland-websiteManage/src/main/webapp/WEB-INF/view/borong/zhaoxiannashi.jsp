@@ -22,12 +22,14 @@
     <%@ include file="common_header.jsp"%>
     <!-- 头部 -->
     <!-- banner -->
-    <div class="ban" style="background-image: url(${ctx}/borong/images/ban-h2.png);">
-        <div class="txt">
-            <h3>关于我们</h3>
-            <p>About</p>
-        </div>
-    </div>
+    <c:if test="${clumnsSize > 5 && clumns[5].childSize > 5}">
+	    	<div class="ban" style="background-image: url(${clumns[5].clist[5].sBannerImage });">
+		        <div class="txt">
+		            <h3>${clumns[5].clist[5].sTitle }</h3>
+		            <p>${clumns[5].clist[5].sTitleEn }</p>
+		        </div>
+		    </div>
+	    </c:if>
     <!-- banner -->
     <!-- 内容 -->
     <div class="main">
@@ -47,14 +49,10 @@
                     </div>
                     <div class="box2">
                         <div class="pic">
-                            <img src="${ctx}/borong/images/h12.png" alt="" />
+                            <img src="${chooseBr.sBannerImage }" alt="" />
                         </div>
                         <div class="txt">
-                            <p>如果你希望加入企业咨询行业、如果你希望努力就能获得回报、</p>
-                            <p>学习就能不断成长、有成绩就会有机会；</p>
-                            <p>如果你希望与公司共同成长，共同收获……</p>
-                            <p>这里机遇与挑战并存，</p>
-                            <p>欢迎加入东方博融大家庭！</p>
+                            ${chooseBr.sNewContent }
                             <div class="img">
                                 <img src="${ctx}/borong/images/logo.png" alt="" />
                             </div>
@@ -99,7 +97,9 @@
                     <div class="g-titq1">
                         <h3><span>博融生活</span></h3>
                         <em>Choose us</em>
-                        <p>${showOne.sTitle }</p>
+                        <c:if test="${clumnsSize > 5 && clumns[5].childSize >0}">
+	                    	<p>${clumns[5].clist[0].sProfile }</p>
+	                    </c:if>
                     </div>
                     <ul class="ul-img1">
                     	<c:forEach items="${pageInfo.page.list}" var="pageData" varStatus="varStatus">

@@ -56,9 +56,13 @@ public interface XwNewsInfoDao {
 	public void deleteAll(@Param("sNewsNos")List<String> sNewsNos);
 	
 	//查询访问量
-	public Integer selectVisitCount(@Param("sNewsNo")String sNewsNo);
+	public Integer selectVisitCount(Map<String,String> params);
 	
-	public void saveVisit(Map<String,String> param);
+	public Integer selectVisitDataCount(Map<String,String> params);
+	
+	void setVisitCount(Map<String,Object> param);
+	
+	public void saveVisit(Map<String,Object> param);
 	
 	public void updateVisit(@Param("sNewsNo")String sNewsNo);
 	

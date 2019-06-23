@@ -36,6 +36,8 @@ public interface NewsInfoService {
 	
 	public int queryVisit(String newsNo);
 	
+	public int selectVisitCount(String newsNo);
+	
 	public XwNewsInfoBean queryPreNews(String iType, int iSortNum);
 	
 	public XwNewsInfoBean queryNextNews(String iType, int iSortNum);
@@ -45,4 +47,6 @@ public interface NewsInfoService {
 	public Map<String,String> querySeo();
 	
 	public void updateSeo(Map<String,String> param);
+	
+	public void setVisitCount(String newsNo, int visitCount);
 }

@@ -70,11 +70,21 @@ public class CommonPageController {
 		return new ModelAndView("commonpage/addCommonPage", model);
 	}
 
-	@RequestMapping(value = "/showNewsInfo.htm")
-	public ModelAndView showNewsInfo(@RequestParam(value = "newsId") String newsId) {
+	@RequestMapping(value = "/showjtjj.htm")
+	public ModelAndView showNewsInfo(@RequestParam(value = "newsNo") String newsNo) {
 		AccessLogger.info("新闻信息查询：", "", DateUtils.getCurrentTime());
 		Map<String, Object> model = new HashMap<String, Object>();
-		model = newsService.showNewsInfo(newsId);
-		return new ModelAndView("commonpage/showCommonPage", model);
+		XwNewsInfoBean bean = newsService.getByNo(newsNo);
+		model.put("newsInfo", bean);
+		return new ModelAndView("commonpage/address", model);
+	}
+	
+	@RequestMapping(value = "/savejtjj.htm")
+	public ModelAndView savejtjj(HttpServletRequest request, XwNewsInfoBean newsInfoParams,
+			@RequestParam(value = "saveType", required = false) Integer saveType,
+			@RequestParam(value = "operate", required = false) String operate) {
+		AccessLogger.info("新闻管理查询：" + "operate:" + operate, newsInfoParams.toString(), DateUtils.getCurrentTime());
+		newsService.updateNews(newsInfoParams);
+		return new ModelAndView("redirect:showjtjj.htm?newsNo=" + newsInfoParams.getsNewsNo());
 	}
 }

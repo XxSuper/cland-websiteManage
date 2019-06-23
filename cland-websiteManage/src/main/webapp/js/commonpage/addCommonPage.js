@@ -362,7 +362,7 @@ function doSummit() {
 	} else if (ChkUtil.isNull(sIntroduce)) {
 		BootstrapDialog.alert("请输入简介！");
 		return false;
-	} else if (ChkUtil.getLength(sIntroduce) > 200) {
+	} else if (ChkUtil.getLength(sIntroduce) > 500) {
 		BootstrapDialog.alert("输入的简介过长！");
 		return false;
 	} else if (ChkUtil.isNull(sNewContent)) {

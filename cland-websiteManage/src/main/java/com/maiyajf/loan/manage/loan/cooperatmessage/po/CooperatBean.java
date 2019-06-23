@@ -14,6 +14,16 @@ public class CooperatBean {
 	private String status;
 	
 	private String addTime;
+	
+	private String sLocation;
+
+	public String getsLocation() {
+		return sLocation;
+	}
+
+	public void setsLocation(String sLocation) {
+		this.sLocation = sLocation;
+	}
 
 	public String getsGuid() {
 		return sGuid;

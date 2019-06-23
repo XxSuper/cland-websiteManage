@@ -21,12 +21,22 @@
     <%@ include file="common_header.jsp"%>
     <!-- 头部 -->
     <!-- banner -->
-    <div class="ban" style="background-image: url(${ctx}/borong/images/ban-h2.png);">
-        <div class="txt">
-            <h3>服务案例</h3>
-            <p>Contact</p>
-        </div>
-    </div>
+    <c:if test="${clumnsSize > 2}">
+    	<div class="ban" style="background-image: url(${clumns[2].sBannerImage });">
+	        <div class="txt">
+	            <h3>${clumns[2].sTitle }</h3>
+	            <p>${clumns[2].sTitleEn }</p>
+	        </div>
+	    </div>
+    </c:if>
+    <c:if test="${clumnsSize <= 2}">
+    	<div class="ban" style="background-image: url(${ctx}/borong/images/ban-2.png);">
+	        <div class="txt">
+	            <h3>服务案例</h3>
+	            <p>Contact</p>
+	        </div>
+	    </div>
+    </c:if>
     <!-- banner -->
     <!-- 内容 -->
     <div class="main">
@@ -37,32 +47,22 @@
                     <em>Classic case</em>
                 </div>
                 <ul class="ul-txtq1 TAB_CLICK" id=".tabbox">
-                	<c:if test="${queryType == 1}">
-                		<li class="on"><a href="serviceList.htm?queryType=1&pageNumber=1" onclick="return false;">农业</a></li>
-                    	<li><a href="serviceList.htm?queryType=2&pageNumber=1">建筑业</a></li>
-                	</c:if>
-                    <c:if test="${queryType != 1}">
-                		<li><a href="serviceList.htm?queryType=1&pageNumber=1">农业</a></li>
-                    	<li class="on"><a href="serviceList.htm?queryType=2&pageNumber=1" onclick="return false;">建筑业</a></li>
-                	</c:if>
+                	<c:forEach items="${jList}" varStatus="i" var="obj">
+                		<li <c:if test="${i.index == 0 }">class="on"</c:if>><a href="javascript:;">${obj.sTitle }</a></li>
+                	</c:forEach>
                 </ul>
-                <div class="tabbox">
-                    <div class="m-cont">
-                        <div class="pic">
-                        	<c:if test="${not empty showOne}">
-                        		<img src="${showOne.sBannerImage}" alt="" />
-                        	</c:if>
-                            <c:if test="${empty showOne}">
-                        		<img src="${ctx}/borong/images/picq21.jpg" alt="" />
-                        	</c:if>
-                        </div>
-                        <div class="txt">
-                        	<c:if test="${not empty showOne}">
-                        		${showOne.sNewContent}
-                        	</c:if>
-                        </div>
-                    </div>
-                </div>
+                <c:forEach items="${jList}" varStatus="i" var="obj">
+                	<div class="tabbox <c:if test='${i.index > 0 }'>dn</c:if>">
+	                    <div class="m-cont">
+	                        <div class="pic">
+	                        	<img src="${obj.sBannerImage}" alt="" />
+	                        </div>
+	                        <div class="txt">
+	                        	${obj.sNewContent}
+	                        </div>
+	                    </div>
+	                </div>
+                </c:forEach>
             </div>
         </div>
         <div class="m-morecase" style="background-image: url(images/bgq6.jpg);">

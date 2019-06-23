@@ -21,12 +21,14 @@
     <%@ include file="common_header.jsp"%>
     <!-- 头部 -->
     <!-- banner -->
-    <div class="ban" style="background-image: url(${ctx}/borong/images/ban-h2.png);">
-        <div class="txt">
-            <h3>博融新闻</h3>
-            <p>News</p>
-        </div>
-    </div>
+    <c:if test="${clumnsSize > 5 && clumns[5].childSize > 2}">
+    	<div class="ban" style="background-image: url(${clumns[5].clist[2].sBannerImage });">
+	        <div class="txt">
+	            <h3>${clumns[5].clist[2].sTitle }</h3>
+	            <p>${clumns[5].clist[2].sTitleEn }</p>
+	        </div>
+	    </div>
+    </c:if>
     <!-- banner -->
     <!-- 内容 -->
     <div class="main">

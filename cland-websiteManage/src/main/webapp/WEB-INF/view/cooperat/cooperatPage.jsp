@@ -32,6 +32,8 @@
 					<th style='width:10%'>时间</th>
 					<th style='width:15%'>联系人</th>
 					<th style='width:10%'>电话</th>
+					<th style='width:10%'>公司</th>
+					<th style='width:10%'>来源栏目</th>
 					<th style='width:18%'>描述</th>
 				</tr>
 			</thead>
@@ -41,6 +43,8 @@
 						<td>${obj.addTime}</td>
 						<td>${obj.sName}</td>
 						<td>${obj.sPhone}</td>
+						<td>${obj.sCompany}</td>
+						<td>${obj.sLocation}</td>
 						<td>${obj.sDescription}</td>
 					</tr>
 				</c:forEach>

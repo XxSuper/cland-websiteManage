@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maiyajf.loan.manage.loan.company.dao.CompanyMessageDao">
+  <resultMap id="BaseResultMap" type="com.maiyajf.loan.manage.loan.company.po.CompanyMessageBean">
+    <id column="sGuid" jdbcType="VARCHAR" property="sGuid" />
+    <result column="sName" jdbcType="VARCHAR" property="sName" />
+    <result column="sPhone" jdbcType="VARCHAR" property="sPhone" />
+    <result column="sMailBox" jdbcType="VARCHAR" property="sMailBox" />
+    <result column="sWeChat" jdbcType="VARCHAR" property="sWeChat" />
+    <result column="sAddress" jdbcType="VARCHAR" property="sAddress" />
+    <result column="sRoute" jdbcType="VARCHAR" property="sRoute" />
+    <result column="sCulture" jdbcType="VARCHAR" property="sCulture" />
+    <result column="sLinks" jdbcType="VARCHAR" property="sLinks" />
+    <result column="sCompany" jdbcType="VARCHAR" property="sCompany" />
+    <result column="sCopyright" jdbcType="VARCHAR" property="sCopyRight" />
+    <result column="sQrCode" jdbcType="VARCHAR" property="sQrCode" />
+    <result column="sAboutUsMail" jdbcType="VARCHAR" property="sAboutUsMail" />
+    <result column="sAboutUsPhone" jdbcType="VARCHAR" property="sAboutUsPhone" />
+    <result column="sAboutUsAdress" jdbcType="VARCHAR" property="sAboutUsAdress" />
+    <result column="addTime" jdbcType="TIMESTAMP" property="addTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    sGuid, sName, sPhone, sMailBox, sWeChat, sAddress, sRoute, sCulture, sLinks, sCompany, 
+    sCopyright, sQrCode, sAboutUsMail, sAboutUsPhone, sAboutUsAdress, addTime
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from company_message
+    where sGuid = #{sGuid,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryCompanyMessage" parameterType="QueyNewsParams"
+          resultType="com.maiyajf.loan.manage.loan.company.po.CompanyMessageBean">
+    select
+    <include refid="Base_Column_List" />
+    from company_message
+    LIMIT #{recordStart},#{recordEnd}
+  </select>
+
+  <select id="count" parameterType="QueyNewsParams" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM company_message
+  </select>
+
+  <select id="showCompanyInfo" resultType="com.maiyajf.loan.manage.loan.company.po.CompanyMessageBean">
+    select <include refid="Base_Column_List" />
+    FROM company_message where sGuid = #{sGuid,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from company_message
+    where sGuid = #{sGuid,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.maiyajf.loan.manage.loan.company.po.CompanyMessageBean">
+    insert into company_message (sGuid, sName, sPhone, 
+      sMailBox, sWeChat, sAddress, 
+      sRoute, sCulture, sLinks, 
+      sCompany, sCopyright, sQrCode, 
+      sAboutUsMail, sAboutUsPhone, sAboutUsAdress, 
+      addTime)
+    values (#{sGuid,jdbcType=VARCHAR}, #{sName,jdbcType=VARCHAR}, #{sPhone,jdbcType=VARCHAR}, 
+      #{sMailBox,jdbcType=VARCHAR}, #{sWeChat,jdbcType=VARCHAR}, #{sAddress,jdbcType=VARCHAR}, 
+      #{sRoute,jdbcType=VARCHAR}, #{sCulture,jdbcType=VARCHAR}, #{sLinks,jdbcType=VARCHAR}, 
+      #{sCompany,jdbcType=VARCHAR}, #{sCopyRight,jdbcType=VARCHAR}, #{sQrCode,jdbcType=VARCHAR}, 
+      #{sAboutUsMail,jdbcType=VARCHAR}, #{sAboutUsPhone,jdbcType=VARCHAR}, #{sAboutUsAdress,jdbcType=VARCHAR}, 
+      #{addTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="save" parameterType="com.maiyajf.loan.manage.loan.company.po.CompanyMessageBean">
+    insert into company_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sGuid != null">
+        sGuid,
+      </if>
+      <if test="sName != null">
+        sName,
+      </if>
+      <if test="sPhone != null">
+        sPhone,
+      </if>
+      <if test="sMailBox != null">
+        sMailBox,
+      </if>
+      <if test="sWeChat != null">
+        sWeChat,
+      </if>
+      <if test="sAddress != null">
+        sAddress,
+      </if>
+      <if test="sRoute != null">
+        sRoute,
+      </if>
+      <if test="sCulture != null">
+        sCulture,
+      </if>
+      <if test="sLinks != null">
+        sLinks,
+      </if>
+      <if test="sCompany != null">
+        sCompany,
+      </if>
+      <if test="sCopyRight != null">
+        sCopyright,
+      </if>
+      <if test="sQrCode != null">
+        sQrCode,
+      </if>
+      <if test="sAboutUsMail != null">
+        sAboutUsMail,
+      </if>
+      <if test="sAboutUsPhone != null">
+        sAboutUsPhone,
+      </if>
+      <if test="sAboutUsAdress != null">
+        sAboutUsAdress,
+      </if>
+      <if test="addTime != null">
+        addTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sGuid != null">
+        #{sGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="sName != null">
+        #{sName,jdbcType=VARCHAR},
+      </if>
+      <if test="sPhone != null">
+        #{sPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="sMailBox != null">
+        #{sMailBox,jdbcType=VARCHAR},
+      </if>
+      <if test="sWeChat != null">
+        #{sWeChat,jdbcType=VARCHAR},
+      </if>
+      <if test="sAddress != null">
+        #{sAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="sRoute != null">
+        #{sRoute,jdbcType=VARCHAR},
+      </if>
+      <if test="sCulture != null">
+        #{sCulture,jdbcType=VARCHAR},
+      </if>
+      <if test="sLinks != null">
+        #{sLinks,jdbcType=VARCHAR},
+      </if>
+      <if test="sCompany != null">
+        #{sCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="sCopyRight != null">
+        #{sCopyRight,jdbcType=VARCHAR},
+      </if>
+      <if test="sQrCode != null">
+        #{sQrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sAboutUsMail != null">
+        #{sAboutUsMail,jdbcType=VARCHAR},
+      </if>
+      <if test="sAboutUsPhone != null">
+        #{sAboutUsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="sAboutUsAdress != null">
+        #{sAboutUsAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="com.maiyajf.loan.manage.loan.company.po.CompanyMessageBean">
+    update company_message
+    <set>
+      <if test="sName != null">
+        sName = #{sName,jdbcType=VARCHAR},
+      </if>
+      <if test="sPhone != null">
+        sPhone = #{sPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="sMailBox != null">
+        sMailBox = #{sMailBox,jdbcType=VARCHAR},
+      </if>
+      <if test="sWeChat != null">
+        sWeChat = #{sWeChat,jdbcType=VARCHAR},
+      </if>
+      <if test="sAddress != null">
+        sAddress = #{sAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="sRoute != null">
+        sRoute = #{sRoute,jdbcType=VARCHAR},
+      </if>
+      <if test="sCulture != null">
+        sCulture = #{sCulture,jdbcType=VARCHAR},
+      </if>
+      <if test="sLinks != null">
+        sLinks = #{sLinks,jdbcType=VARCHAR},
+      </if>
+      <if test="sCompany != null">
+        sCompany = #{sCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="sCopyRight != null">
+        sCopyright = #{sCopyRight,jdbcType=VARCHAR},
+      </if>
+      <if test="sQrCode != null">
+        sQrCode = #{sQrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sAboutUsMail != null">
+        sAboutUsMail = #{sAboutUsMail,jdbcType=VARCHAR},
+      </if>
+      <if test="sAboutUsPhone != null">
+        sAboutUsPhone = #{sAboutUsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="sAboutUsAdress != null">
+        sAboutUsAdress = #{sAboutUsAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        addTime = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where sGuid = #{sGuid,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.maiyajf.loan.manage.loan.company.po.CompanyMessageBean">
+    update company_message
+    set sName = #{sName,jdbcType=VARCHAR},
+      sPhone = #{sPhone,jdbcType=VARCHAR},
+      sMailBox = #{sMailBox,jdbcType=VARCHAR},
+      sWeChat = #{sWeChat,jdbcType=VARCHAR},
+      sAddress = #{sAddress,jdbcType=VARCHAR},
+      sRoute = #{sRoute,jdbcType=VARCHAR},
+      sCulture = #{sCulture,jdbcType=VARCHAR},
+      sLinks = #{sLinks,jdbcType=VARCHAR},
+      sCompany = #{sCompany,jdbcType=VARCHAR},
+      sCopyright = #{sCopyRight,jdbcType=VARCHAR},
+      sQrCode = #{sQrCode,jdbcType=VARCHAR},
+      sAboutUsMail = #{sAboutUsMail,jdbcType=VARCHAR},
+      sAboutUsPhone = #{sAboutUsPhone,jdbcType=VARCHAR},
+      sAboutUsAdress = #{sAboutUsAdress,jdbcType=VARCHAR},
+      addTime = #{addTime,jdbcType=TIMESTAMP}
+    where sGuid = #{sGuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

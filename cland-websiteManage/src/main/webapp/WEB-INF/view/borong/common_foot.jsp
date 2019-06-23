@@ -7,16 +7,16 @@
         <div class="fd-top">
             <div class="wp">
                 <div class="addr">
-                    <h3>为客户企业<br />实现可持续发展服务</h3>
+                    <h3>${cp.sCulture }</h3>
                     <div class="txt">
-                        <p>电话：010-8262-6909</p>
-                        <p>咨询：<a href="mailto:consult@orinf.cn">consult@orinf.cn</a></p>
-                        <p>地址：北京市海淀区中关村东路89号恒兴大厦306</p>
+                        <p>电话：${cp.sAboutUsPhone }</p>
+                        <p>咨询：<a href="mailto:${cp.sAboutUsPhone }">${cp.sAboutUsPhone }</a></p>
+                        <p>地址：${cp.sAboutUsAdress }</p>
                     </div>
                 </div>
                 <div class="ma">
                     <span>关注我们</span>
-                    <div class="pic"><img src="${ctx}/borong/images/ma.jpg" alt="" /></div>
+                    <div class="pic"><img src="${cp.sQrCode }" alt="" /></div>
                 </div>
                 <div class="fdnav">
                     <dl>
@@ -58,7 +58,7 @@
                     </c:forEach>
                 </div>
                 <div class="copy">
-                    <p>Copyright © 2015 - 2019 www.orinf.cn All Rights Reserved. 北京东方博融管理咨询有限公司 京ICP备12345678号-1</p>
+                    <p>${cp.sCopyRight }</p>
                 </div>
             </div>
         </div>

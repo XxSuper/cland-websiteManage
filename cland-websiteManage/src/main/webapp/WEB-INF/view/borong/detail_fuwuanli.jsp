@@ -21,18 +21,20 @@
     <%@ include file="common_header.jsp"%>
     <!-- 头部 -->
     <!-- banner -->
-     <div class="ban" style="background-image: url(${ctx}/borong/images/ban-2.png);">
-        <div class="txt">
-            <h3>服务案例</h3>
-            <p>Contact</p>
-        </div>
-    </div>
+    <c:if test="${clumnsSize > 2}">
+    	<div class="ban" style="background-image: url(${clumns[2].sBannerImage });">
+	        <div class="txt">
+	            <h3>${clumns[2].sTitle }</h3>
+	            <p>${clumns[2].sTitleEn }</p>
+	        </div>
+	    </div>
+    </c:if>
     <!-- banner -->
     <!-- 内容 -->
     <div class="main">
         <div class="cur">
             <div class="wp">
-                当前位置：<a href="">首页</a>&nbsp;&gt;&nbsp;<a href="">${showType }</a>
+                当前位置：<a href="">首页</a>&nbsp;&gt;&nbsp;<a href="serviceList.htm">${showType }</a>&nbsp;&gt;&nbsp;<a href="">文章详情</a>
             </div>
         </div>
         <div class="row-hs2">
@@ -41,7 +43,9 @@
                     <div class="box-txt1">
                         <h1>${info.newsInfo.sTitle }</h1>
                         <div class="info">
-                            <span>作者：${info.newsInfo.sWriter }</span>
+                        	<c:if test="${not empty info.newsInfo.sWriter }">
+                        		<span>作者：${info.newsInfo.sWriter }</span>
+                        	</c:if>
                             <span>时间：${info.newsInfo.dModifyDate }</span>
                             <span>浏览：${visitCount}</span>
                         </div>
@@ -80,6 +84,7 @@
                 </div>
                 <div class="g-form">
                     <form action="" id="hzform">
+                    	<input type="hidden" name="sLocation" value="服务案例" />
                         <div class="g-htit">
                             <h3>留言合作</h3>
                         </div>
@@ -114,6 +119,21 @@
     <script>
     var flag = false;
     	function hzsub(){
+    		var sName = $('input[name=sName]').val();
+    		var sPhone = $('input[name=sPhone]').val();
+    		var sCompany = $('input[name=sCompany]').val();
+    		if(!sName){
+    			alert("请填写联系人");
+    			return;
+    		}
+    		if(!sPhone){
+    			alert("请填写联系电话");
+    			return;
+    		}
+    		if(!sCompany){
+    			alert("请填写公司名称");
+    			return;
+    		}
     		if(flag){
     			alert("请不要重复提交");
     			return;

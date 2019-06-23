@@ -4,7 +4,7 @@
 <%@ include file="/include/taglib.jsp"%>
 
 <script src="${ctx}/js/commonpage/commonPageManage.js?20190609"></script>
-<c:if test="${iType == 1}">
+<c:if test="${iType == 1 || iType == 23}">
 	<c:set var="pageName" value="核心行业"></c:set>
 	<c:set var="titleName" value="核心行业"></c:set>
 </c:if>
@@ -29,6 +29,16 @@
 <c:if test="${iType == 11}">
 	<c:set var="pageName" value="核心能力"></c:set>
 	<c:set var="titleName" value="核心能力"></c:set>
+	<c:set var="remarkName" value="链接地址"></c:set>
+</c:if>
+<c:if test="${iType == 24}">
+	<c:set var="pageName" value="核心行业推荐"></c:set>
+	<c:set var="titleName" value="核心行业"></c:set>
+	<c:set var="remarkName" value="链接地址"></c:set>
+</c:if>
+<c:if test="${iType == 25}">
+	<c:set var="pageName" value="选择博融"></c:set>
+	<c:set var="titleName" value="标题"></c:set>
 </c:if>
 <c:if test="${iType == 13}">
 	<c:set var="pageName" value="博融招聘"></c:set>
@@ -39,7 +49,7 @@
 	<c:set var="pageName" value="博融生活"></c:set>
 	<c:set var="titleName" value="标题"></c:set>
 	<c:set var="remarkName" value="标签"></c:set>
-	<c:set var="dateName" value="创建时间"></c:set>
+	<c:set var="dateName" value="发布时间"></c:set>
 </c:if>
 <c:if test="${iType == 15}">
 	<c:set var="pageName" value="友情链接"></c:set>
@@ -49,18 +59,23 @@
 	<c:set var="pageName" value="博融观点"></c:set>
 	<c:set var="titleName" value="标题"></c:set>
 	<c:set var="remarkName" value="标签"></c:set>
-	<c:set var="dateName" value="创建时间"></c:set>
+	<c:set var="dateName" value="发布时间"></c:set>
 </c:if>
 <c:if test="${iType == 17}">
 	<c:set var="pageName" value="理论本土化"></c:set>
 	<c:set var="titleName" value="标题"></c:set>
 	<c:set var="remarkName" value="标签"></c:set>
-	<c:set var="dateName" value="创建时间"></c:set>
+	<c:set var="dateName" value="发布时间"></c:set>
 </c:if>
 <c:if test="${iType == 7 || iType == 12}">
 	<c:set var="pageName" value="服务案例"></c:set>
 	<c:set var="titleName" value="服务对象"></c:set>
 	<c:set var="remarkName" value="标签"></c:set>
+	<c:set var="dateName" value="发布时间"></c:set>
+</c:if>
+<c:if test="${iType == 22}">
+	<c:set var="pageName" value="集团简介图文"></c:set>
+	<c:set var="titleName" value="图文名称"></c:set>
 </c:if>
 
 	<!--页面标题-->
@@ -95,21 +110,24 @@
 			
 			<thead>
 				<tr>
-					<th style='width:5%'></th>
-					<th style='width:8%'>序号</th>
-					<c:if test="${iType == 2 || iType == 14 || iType == 16 || iType == 17}">
+					<th style='width:3%'></th>
+					<th style='width:5%'>序号</th>
+					<c:if test="${iType == 2 || iType == 7 || iType == 12 || iType == 14 || iType == 16 || iType == 17}">
 						<th style='width:10%'>${dateName }</th>
 					</c:if>
+					<c:if test="${iType == 8 || iType == 9}">
+						<th style='width:8%'>产品模块</th>
+					</c:if>
 					<th style='width:10%'>${titleName}</th>
-					<c:if test="${iType == 7 || iType == 12 || iType == 14}">
-						<th style='width:10%'>作者</th>
+					<c:if test="${iType == 7 || iType == 12 || iType == 14 || iType == 16 || iType == 17}">
+						<th style='width:8%'>作者</th>
 					</c:if>
 					
-					<c:if test="${iType == 4 || iType == 7 || iType == 12 || iType == 9 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
+					<c:if test="${iType == 4 || iType == 11 || iType == 24 || iType == 7 || iType == 12 || iType == 9 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
 						<th style='width:15%'>${remarkName}</th>
 					</c:if>
 					
-					<c:if test="${iType == 1 || iType == 2 || iType == 4 || iType == 7 || iType == 12 || iType == 8 || iType == 9 || iType == 10 || iType == 11 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
+					<c:if test="${iType == 1 || iType == 25 || iType == 23 || iType == 22 || iType == 2 || iType == 4 || iType == 7 || iType == 12 || iType == 8 || iType == 9 || iType == 10 || iType == 11 || iType == 24 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
 						<th style='width:10%'>图片</th>
 						<th style='width:18%'>简介</th>
 					</c:if>
@@ -125,20 +143,24 @@
 							<input type="checkbox" value="${newinfo.sNewsNo}" name="newsInfo">
 						</td>
 						<td>${newinfo.iSortNum}</td>
-						<c:if test="${iType == 2}">
+						<c:if test="${iType == 2 || iType == 7 || iType == 12 || iType == 16 || iType == 17 || iType == 14}">
 							<td>${newinfo.dPublishDate}</td>
 						</c:if>
-						<c:if test="${iType == 16 || iType == 17 || iType == 14}">
-							<td>${newinfo.dModifyDate}</td>
+						<c:if test="${iType == 8 || iType == 9}">
+							<th style='width:8%'><c:if test="${newinfo.sModularId == 1 }">道</c:if>
+							<c:if test="${newinfo.sModularId == 2 }">术</c:if>
+							<c:if test="${newinfo.sModularId == 3 }">法</c:if>
+							<c:if test="${newinfo.sModularId == 4 }">器</c:if>
+							<c:if test="${newinfo.sModularId == 5 }">财</c:if></th>
 						</c:if>
 						<td>${newinfo.sTitle}</td>
-						<c:if test="${iType == 7 || iType == 12 || iType == 14}">
+						<c:if test="${iType == 7 || iType == 12 || iType == 14 || iType == 16 || iType == 17}">
 							<td>${newinfo.sWriter}</td>
 						</c:if>
-						<c:if test="${iType == 4 || iType == 7 || iType == 12 || iType == 9 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
+						<c:if test="${iType == 4 || iType == 11 || iType == 24 || iType == 7 || iType == 12 || iType == 9 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
 							<td>${newinfo.remark}</td>
 						</c:if>
-						<c:if test="${iType == 1 || iType == 2 || iType == 4 || iType == 7 || iType == 12 || iType == 8 || iType == 9 || iType == 10 || iType == 11 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
+						<c:if test="${iType == 1 || iType == 25 || iType == 23 || iType == 22 || iType == 2 || iType == 4 || iType == 7 || iType == 12 || iType == 8 || iType == 9 || iType == 10 || iType == 11 || iType == 24 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
 							<td>
 								<c:if test="${not empty newinfo.sBannerImage}">
 									<img src="${newinfo.sBannerImage}" style='height:30px;' />
@@ -157,12 +179,12 @@
 							<c:choose>
 								<c:when test="${newinfo.iHomeDisplay == 1}">
 									<a href='javascript:;' onClick="setHomeDisplay('${newinfo.sNewsNo}','${newinfo.iHomeDisplay}')">
-										<i class="icon-edit icon-white"></i>取消首页展示
+										<i class="icon-edit icon-white"></i>取消推荐/首页显示
 									</a>
 								</c:when>
 								<c:otherwise>
 									<a href='javascript:;' onClick="setHomeDisplay('${newinfo.sNewsNo}','${newinfo.iHomeDisplay}')">
-										<i class="icon-edit icon-white"></i>置为首页展示
+										<i class="icon-edit icon-white"></i>置为推荐/首页显示
 									</a>
 								</c:otherwise>
 							</c:choose>

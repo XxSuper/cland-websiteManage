@@ -22,12 +22,23 @@
     <%@ include file="common_header.jsp"%>
     <!-- 头部 -->
     <!-- banner -->
-    <div class="ban" style="background-image: url(${ctx}/borong/images/ban-h1.png);">
+    <c:if test="${clumnsSize > 6}">
+    	<div class="ban" style="background-image: url(${clumns[6].sBannerImage });">
+	        <div class="txt">
+	            <h3>${clumns[6].sTitle }</h3>
+	            <p>${clumns[6].sTitleEn }</p>
+	        </div>
+	    </div>
+    </c:if>
+    <c:if test="${clumnsSize <= 6}">
+    	<div class="ban" style="background-image: url(${ctx}/borong/images/ban-h1.png);">
         <div class="h-so">
                <input type="text" id="searchKey" class="inp" value="${searchKey }" placeholder="请在此输入您要搜索的内容或关键词" />
                <input type="submit" class="sub" onclick="search()" value="搜索" />
         </div>
     </div>
+    </c:if>
+    
     <!-- banner -->
     <!-- 内容 -->
     <div class="main">

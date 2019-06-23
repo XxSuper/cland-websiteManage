@@ -3,7 +3,7 @@
 <%@ include file="/include/left.jsp"%>
 <%@ include file="/include/taglib.jsp"%>
 
-<script src="${ctx }/js/knowCland/honorQualification.js?20171018"></script>
+<script src="${ctx }/js/knowCland/honorQualification.js?20190618"></script>
 
 <!--页面标题-->
 <h3 class="page-title"></h3>
@@ -69,6 +69,18 @@
                     <a href='javascript:;' onClick="deleteOne('${dto.sNewsNo}')" id="${dto.sNewsNo}">
                         <i class="icon-trash icon-white"></i>删除
                     </a>
+                    <c:choose>
+						<c:when test="${dto.iHomeDisplay == 1}">
+							<a href='javascript:;' onClick="setHomeDisplay('${dto.sNewsNo}','${dto.iHomeDisplay}')">
+								<i class="icon-edit icon-white"></i>取消推荐/首页显示
+							</a>
+						</c:when>
+						<c:otherwise>
+							<a href='javascript:;' onClick="setHomeDisplay('${dto.sNewsNo}','${dto.iHomeDisplay}')">
+								<i class="icon-edit icon-white"></i>置为推荐/首页显示
+							</a>
+						</c:otherwise>
+					</c:choose>
                 </td>
                 <td>
                     <input class='span8 js_px_input' type='text' id="${dto.sNewsNo}" value='${dto.iSortNum}' />

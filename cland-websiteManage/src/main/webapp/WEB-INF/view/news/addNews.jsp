@@ -67,6 +67,13 @@
 						</div>
     				</div>
  			 </div>
+ 			 
+ 			 <div class="control-group">
+    			<label class="control-label" for="visitCount">浏览次数</label>
+  					  <div class="controls">
+     					 <input  type="text" id="visitCount"  name="visitCount"  placeholder="" maxlength="100" value="${visitCount}">
+    				</div>
+ 			 </div>
 			
 			<div class="control-group">
     			<label class="control-label" for="">banner图（选填）</label>

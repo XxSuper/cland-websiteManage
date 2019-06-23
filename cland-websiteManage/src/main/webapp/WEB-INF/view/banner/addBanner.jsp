@@ -33,6 +33,19 @@
 			<input id="sNewsNo" name="sNewsNo" type="hidden" value="${newsInfo.sNewsNo}" />
 			
 			<div class="control-group">
+    			<label class="control-label" for="sTitle">中文标题</label>
+  					  <div class="controls" >
+  					 	<input type="text" id="sTitle" name="sTitle"  maxlength="100" value="${newsInfo.sTitle}"/>
+    				</div>
+ 			 </div>  
+ 			 <div class="control-group">
+    			<label class="control-label" for="remark">英文标题</label>
+  					  <div class="controls" >
+  					 	<input type="text" id="remark" name="remark"  maxlength="200" value="${newsInfo.remark}"/>
+    				</div>
+ 			 </div>  
+ 			 
+			<div class="control-group">
     			<label class="control-label" for="">图片</label>
   					  <div class="controls" >
      					<input type="hidden" id="sBannerImage" name="sBannerImage" value="${newsInfo.sBannerImage}" >

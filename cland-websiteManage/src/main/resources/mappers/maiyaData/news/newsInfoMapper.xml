@@ -46,6 +46,7 @@
 		<if test="searchIType != null and searchIType != ''.toString()">and iType in (${searchIType}) </if>
 		<if test="searchKey != null and searchKey != ''.toString()">and (sNewContent like CONCAT('%',#{searchKey},'%') or sTitle like CONCAT('%',#{searchKey},'%')) </if>
 		<if test="sModularId != null and sModularId != ''.toString()">and sModularId = #{sModularId} </if>
+		<if test="timeShow != null">and (dPublishDate &lt;= SYSDATE() or dPublishDate is NULL) </if>
 		<if test="orderByStr != null and orderByStr != ''.toString()">order by ${orderByStr}</if>
 		<if test="orderByStr == null or orderByStr == ''.toString()">order by iSortNum desc</if>
 		 LIMIT #{recordStart},#{recordEnd}
@@ -55,6 +56,7 @@
 		resultType="XwNewsInfoBean">
 		SELECT <include refid="queryfields" /> FROM xw_newsinfo WHERE iDelFlag = 1
 		<if test="iType != null and iType != ''.toString()">and iType = #{iType} </if>
+		<if test="sModularId != null and sModularId != ''.toString()">and sModularId = #{sModularId} </if>
 		<if test="searchIType != null and searchIType != ''.toString()">and iType in (${searchIType}) </if>
 		<if test="searchKey != null and searchKey != ''.toString()">and (sNewContent like CONCAT('%',#{searchKey},'%') or sTitle like CONCAT('%',#{searchKey},'%')) </if>
 		<if test="iHomeDisplay != null and iHomeDisplay != ''.toString()">and iHomeDisplay = #{iHomeDisplay} </if>
@@ -67,6 +69,8 @@
 		SELECT COUNT(*) FROM xw_newsinfo WHERE iDelFlag = 1
 		<if test="iType != null and iType != ''">and iType = #{iType}  </if>
 		<if test="searchIType != null and searchIType != ''.toString()">and iType in (${searchIType}) </if>
+		<if test="timeShow != null">and (dPublishDate &lt;= SYSDATE() or dPublishDate is NULL) </if>
+		<if test="sModularId != null and sModularId != ''.toString()">and sModularId = #{sModularId} </if>
 		<if test="searchKey != null and searchKey != ''.toString()">and (sNewContent like CONCAT('%',#{searchKey},'%') or sTitle like CONCAT('%',#{searchKey},'%')) </if>
 	</select>
 
@@ -97,24 +101,34 @@
 		resultType="XwNewsInfoBean">
 		SELECT <include refid="queryfields" /> FROM xw_newsinfo WHERE iDelFlag = 1
 		<if test="iType != null and iType != ''.toString()">and iType = #{iType} </if>
+		<if test="iHomeDisplay != null">and iHomeDisplay = #{iHomeDisplay} </if>
+		<if test="timeShow != null">and (dPublishDate &lt;= SYSDATE() or dPublishDate is NULL) </if>
 		<if test="sModularId != null and sModularId != ''.toString()">and sModularId = #{sModularId} </if>
 		order by iSortNum asc
 		<if test="topN != null and topN != ''.toString()">limit #{topN} </if>
 	</select>
 	
-	<select id="selectVisitCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+	<select id="selectVisitCount" parameterType="java.util.Map" resultType="java.lang.Integer">
 		select visitCount from news_visit where sNewsNo = #{sNewsNo}
+	</select>
+	
+	<select id="selectVisitDataCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from news_visit where sNewsNo = #{sNewsNo}
 	</select>
 	
 	<insert id="saveVisit" parameterType="java.util.Map">
 		insert into news_visit(
 		sGuid, sNewsNo, visitCount
 		) values
-		(#{sGuid}, #{sNewsNo}, 1)
+		(#{sGuid}, #{sNewsNo}, #{visitCount})
 	</insert>
 	
 	<update id="updateVisit">
-			update news_visit set visitCount = visitCount + 1 where sNewsNo = #{sNewsNo}
+			update news_visit set visitCount = IFNULL(visitCount,0) + 1 where sNewsNo = #{sNewsNo}
+	</update>
+	
+	<update id="setVisitCount" parameterType="java.util.Map">
+			update news_visit set visitCount = #{visitCount} where sNewsNo = #{sNewsNo}
 	</update>
 	
 	<select id="queryPreNews" parameterType="java.util.Map" resultType="XwNewsInfoBean">

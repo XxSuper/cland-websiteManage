@@ -22,12 +22,24 @@
     <%@ include file="common_header.jsp"%>
     <!-- 头部 -->
     <!-- banner -->
-    <div class="ban" style="background-image: url(${ctx}/borong/images/ban-h2.png);">
-        <div class="txt">
-            <h3>核心能力</h3>
-            <p>Core competence</p>
-        </div>
-    </div>
+    ${clumns[1].childSize }
+    <c:if test="${clumnsSize > 1 && clumns[1].childSize > 5}">
+    	<div class="ban" style="background-image: url(${clumns[1].clist[5].sBannerImage });">
+	        <div class="txt">
+	            <h3>${clumns[1].clist[5].sTitle }</h3>
+	            <p>${clumns[1].clist[5].sTitleEn }</p>
+	        </div>
+	    </div>
+    </c:if>
+    <c:if test="${clumnsSize <= 1 || clumns[1].childSize <= 5}">
+    	<div class="ban" style="background-image: url(${ctx}/borong/images/ban-h2.png);">
+	        <div class="txt">
+	            <h3>核心能力</h3>
+	            <p>Core competence</p>
+	        </div>
+	    </div>
+    </c:if>
+    
     <!-- banner -->
     <!-- 内容 -->
     <div class="main">
@@ -36,7 +48,7 @@
                 <ul class="ul-imgtxtq5">
                 	<c:forEach items="${coreNl }" var="info">
 	                    <li>
-	                        <a href="fuwuDetail.htm?sNewsNo=${info.sNewsNo }">
+	                        <a href="${obj.remark}">
 	                            <div class="pic">
 	                                <img src="${info.sBannerImage }" alt="" />
 	                                <div class="con">

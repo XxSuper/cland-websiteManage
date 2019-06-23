@@ -109,6 +109,10 @@ public class CommomPageManageController {
 		model = newsInfoService.showNewsInfo(newsNo);
 		model.put("operate", "edit");
 		model.put("iType",((XwNewsInfoBean)model.get("newsInfo")).getiType());
+		
+		int visitCount = newsInfoService.selectVisitCount(newsNo);
+		model.put("visitCount", visitCount);
+		
 		return new ModelAndView("commonpage/addCommonPage", model);
 	}
 

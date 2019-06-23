@@ -26,31 +26,31 @@
         <div class="wp">
             <ul class="ul-tab TAB_CLICK" id=".tab1">
                 <li <c:if test="${queryType == 1 }"> class="on"</c:if>>
-                    <a href="javascript:;">
+                    <a href="detailCP.htm?queryType=1">
                         <p>道</p>
                         <span>战略管理体系</span>
                     </a>
                 </li>
                 <li <c:if test="${queryType == 2 }"> class="on"</c:if>>
-                    <a href="javascript:;">
+                    <a href="detailCP.htm?queryType=2">
                         <p>术</p>
                         <span>内部组织管理体系</span>
                     </a>
                 </li>
                 <li <c:if test="${queryType == 3 }"> class="on"</c:if>>
-                    <a href="javascript:;">
+                    <a href="detailCP.htm?queryType=3">
                         <p>法</p>
                         <span>流程绩效体系</span>
                     </a>
                 </li>
                 <li <c:if test="${queryType == 4 }"> class="on"</c:if>>
-                    <a href="javascript:;">
+                    <a href="detailCP.htm?queryType=4">
                         <p>器</p>
                         <span>信息化建设体系</span>
                     </a>
                 </li>
                 <li <c:if test="${queryType == 5 }"> class="on"</c:if>>
-                    <a href="javascript:;">
+                    <a href="detailCP.htm?queryType=5">
                         <p>财</p>
                         <span>投融资咨询</span>
                     </a>
@@ -59,74 +59,97 @@
         </div>
     </div>
     <div class="tab1 <c:if test="${queryType != 1 }"> dn</c:if>">
-        <div class="ban-1" style="background-image: url(${ctx}/borong/images/ban-1.png);">
-            <div class="wp hs">
-                <div class="txt">
-                    <span>道</span>
-                    <div class="con">
-                        <h3>战术管理体系</h3>
-                        <em>Tactical Management System</em>
-                        <p>我们以战略咨询为导向，为帮助客户推动战略落地，根据客户实际需求提供支撑战略实现的“1+X”保姆式咨询服务（敢于承诺、长期跟踪）。</p>
-                    </div>
-                </div>
-            </div>
+    	<c:if test="${clumnsSize > 1 && clumns[1].childSize >0}">
+        <div class="ban-1" style="background-image: url(${clumns[1].clist[0].sBannerImage });">
+        	
+        		<div class="wp hs">
+	                <div class="txt">
+	                    <span>道</span>
+	                    <div class="con">
+	                        <h3>${clumns[1].clist[0].sTitle }</h3>
+	                        <em>${clumns[1].clist[0].sTitleEn }</em>
+	                        <p>${clumns[1].clist[0].sProfile }</p>
+	                    </div>
+	                </div>
+	            </div>
+        	
+            
         </div>
+        </c:if>
     </div>
     <div class="tab1 <c:if test="${queryType != 2 }"> dn</c:if>">
-        <div class="ban-1" style="background-image: url(${ctx}/borong/images/ban-1.png);">
-            <div class="wp hs">
-                <div class="txt">
-                    <span>术</span>
-                    <div class="con">
-                        <h3>战术管理体系</h3>
-                        <em>Tactical Management System</em>
-                        <p>我们以战略咨询为导向，为帮助客户推动战略落地，根据客户实际需求提供支撑战略实现的“1+X”保姆式咨询服务（敢于承诺、长期跟踪）。</p>
-                    </div>
-                </div>
-            </div>
+        <c:if test="${clumnsSize > 1 && clumns[1].childSize >1}">
+        <div class="ban-1" style="background-image: url(${clumns[1].clist[1].sBannerImage });">
+        	
+        		<div class="wp hs">
+	                <div class="txt">
+	                    <span>道</span>
+	                    <div class="con">
+	                        <h3>${clumns[1].clist[1].sTitle }</h3>
+	                        <em>${clumns[1].clist[1].sTitleEn }</em>
+	                        <p>${clumns[1].clist[1].sProfile }</p>
+	                    </div>
+	                </div>
+	            </div>
+        	
+            
         </div>
+        </c:if>
     </div>
     <div class="tab1 <c:if test="${queryType != 3 }"> dn</c:if>">
-        <div class="ban-1" style="background-image: url(${ctx}/borong/images/ban-1.png);">
-            <div class="wp hs">
-                <div class="txt">
-                    <span>法</span>
-                    <div class="con">
-                        <h3>战术管理体系</h3>
-                        <em>Tactical Management System</em>
-                        <p>我们以战略咨询为导向，为帮助客户推动战略落地，根据客户实际需求提供支撑战略实现的“1+X”保姆式咨询服务（敢于承诺、长期跟踪）。</p>
-                    </div>
-                </div>
-            </div>
+        <c:if test="${clumnsSize > 1 && clumns[1].childSize >2}">
+        <div class="ban-1" style="background-image: url(${clumns[1].clist[2].sBannerImage });">
+        	
+        		<div class="wp hs">
+	                <div class="txt">
+	                    <span>道</span>
+	                    <div class="con">
+	                        <h3>${clumns[1].clist[2].sTitle }</h3>
+	                        <em>${clumns[1].clist[2].sTitleEn }</em>
+	                        <p>${clumns[1].clist[2].sProfile }</p>
+	                    </div>
+	                </div>
+	            </div>
+        	
+            
         </div>
+        </c:if>
     </div>
     <div class="tab1 <c:if test="${queryType != 4 }"> dn</c:if>">
-        <div class="ban-1" style="background-image: url(${ctx}/borong/images/ban-1.png);">
-            <div class="wp hs">
-                <div class="txt">
-                    <span>器</span>
-                    <div class="con">
-                        <h3>战术管理体系</h3>
-                        <em>Tactical Management System</em>
-                        <p>我们以战略咨询为导向，为帮助客户推动战略落地，根据客户实际需求提供支撑战略实现的“1+X”保姆式咨询服务（敢于承诺、长期跟踪）。</p>
-                    </div>
-                </div>
-            </div>
+        <c:if test="${clumnsSize > 1 && clumns[1].childSize >3}">
+        <div class="ban-1" style="background-image: url(${clumns[1].clist[3].sBannerImage });">
+        	
+        		<div class="wp hs">
+	                <div class="txt">
+	                    <span>道</span>
+	                    <div class="con">
+	                        <h3>${clumns[1].clist[3].sTitle }</h3>
+	                        <em>${clumns[1].clist[3].sTitleEn }</em>
+	                        <p>${clumns[1].clist[3].sProfile }</p>
+	                    </div>
+	                </div>
+	            </div>
+        	
+            
         </div>
+        </c:if>
     </div>
     <div class="tab1 <c:if test="${queryType != 5 }"> dn</c:if>">
-        <div class="ban-1" style="background-image: url(${ctx}/borong/images/ban-1.png);">
-            <div class="wp hs">
-                <div class="txt">
-                    <span>财</span>
-                    <div class="con">
-                        <h3>战术管理体系</h3>
-                        <em>Tactical Management System</em>
-                        <p>我们以战略咨询为导向，为帮助客户推动战略落地，根据客户实际需求提供支撑战略实现的“1+X”保姆式咨询服务（敢于承诺、长期跟踪）。</p>
-                    </div>
-                </div>
-            </div>
+        <c:if test="${clumnsSize > 1 && clumns[1].childSize >4}">
+        <div class="ban-1" style="background-image: url(${clumns[1].clist[4].sBannerImage });">
+        	
+        		<div class="wp hs">
+	                <div class="txt">
+	                    <span>道</span>
+	                    <div class="con">
+	                        <h3>${clumns[1].clist[4].sTitle }</h3>
+	                        <em>${clumns[1].clist[4].sTitleEn }</em>
+	                        <p>${clumns[1].clist[4].sProfile }</p>
+	                    </div>
+	                </div>
+	            </div>
         </div>
+        </c:if>
     </div>
     <!-- banner -->
     <!-- 内容 -->
@@ -155,7 +178,7 @@
                 	<c:forEach items="${mainModel }" varStatus="status" var="obj">
                 		<div class="item">
 	                        <div class="con">
-	                            <em class="num">${status.index }</em>
+	                            <em class="num">${status.index + 1 }</em>
 	                            <div class="tit">
 	                                <h4>${obj.sTitle}</h4>
 	                                <span>${obj.remark}</span>

@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,11 +70,29 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		}
 		params.setiSortNum(sortNum);
 		newsInfoDao.save(params);
+		
+		//设置浏览次数
+		if(StringUtils.isNotBlank(params.getVisitCount())){
+			try{
+				setVisitCount(newsNo, Integer.parseInt(params.getVisitCount()));
+			}catch(Exception e){
+				//异常的次数
+			}
+		}
 	}
 
 	@Override
 	public void updateNews(XwNewsInfoBean params) {
 		newsInfoDao.update(params);
+		//设置浏览次数
+		if(StringUtils.isNotBlank(params.getVisitCount())){
+			
+			try{
+				setVisitCount(params.getsNewsNo(), Integer.parseInt(params.getVisitCount()));
+			}catch(Exception e){
+				//异常的次数
+			}
+		}
 	}
 
 	@Override
@@ -96,15 +115,15 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 
 	@Override
 	public AjaxResult setHomeDisplay(XwNewsInfoBean newsInfoParams) {
-		if (newsInfoParams.getiHomeDisplay() == 0) {
+		if (newsInfoParams.getiHomeDisplay() == null || newsInfoParams.getiHomeDisplay() == 0) {
 			// 设置首页展示-查询是否大于4条
 			QueyNewsParams params = new QueyNewsParams();
 			params.setiType(newsInfoParams.getiType());
 			params.setiHomeDisplay(1);
-			List<XwNewsInfoBean> l = newsInfoDao.queryNewsNoPage(params);
-			if (l != null && l.size() >= EnumMaxNum.getNum(newsInfoParams.getiType())) {
-				return AjaxResult.failed("只能选择" + EnumMaxNum.getNum(newsInfoParams.getiType()) + "条作为首页展示", AjaxResult.ERROR_CODE);
-			}
+//			List<XwNewsInfoBean> l = newsInfoDao.queryNewsNoPage(params);
+//			if (l != null && l.size() >= EnumMaxNum.getNum(newsInfoParams.getiType())) {
+//				return AjaxResult.failed("只能选择" + EnumMaxNum.getNum(newsInfoParams.getiType()) + "条作为首页展示", AjaxResult.ERROR_CODE);
+//			}
 			newsInfoParams.setiHomeDisplay(1);
 		} else {
 			newsInfoParams.setiHomeDisplay(0);
@@ -172,16 +191,55 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	}
 	
 	public int queryVisit(String newsNo){
-		Integer value = newsInfoDao.selectVisitCount(newsNo);
-		if(null == value){
-			Map<String,String> param = new HashMap<String,String>();
+		Map<String,String> p = new HashMap<String,String>();
+		p.put("sNewsNo", newsNo);
+		Integer value = newsInfoDao.selectVisitCount(p);
+		if(value == null){
+			value = 0;
+		}
+		Integer count = newsInfoDao.selectVisitDataCount(p);
+		if(null == count || count == 0){
+			Map<String,Object> param = new HashMap<String,Object>();
 			param.put("sGuid", UUID.randomUUID().toString());
 			param.put("sNewsNo", newsNo);
 			newsInfoDao.saveVisit(param);
+			param.put("visitCount", 1);
 			return 1;
 		}else{
 			newsInfoDao.updateVisit(newsNo);
 			return value+1;
+		}
+	}
+	
+	@Override
+	public int selectVisitCount(String newsNo){
+		Map<String,String> p = new HashMap<String,String>();
+		p.put("sNewsNo", newsNo);
+		Integer value = newsInfoDao.selectVisitCount(p);
+		if(value == null){
+			value = 0;
+		}
+		return value;
+	}
+	
+	public void setVisitCount(String newsNo, int visitCount){
+		
+		Map<String,String> p = new HashMap<String,String>();
+		p.put("sNewsNo", newsNo);
+		
+		Integer count = newsInfoDao.selectVisitDataCount(p);
+		if(null == count || count == 0){
+			
+			Map<String,Object> param = new HashMap<String,Object>();
+			param.put("sGuid", UUID.randomUUID().toString());
+			param.put("sNewsNo", newsNo);
+			param.put("visitCount", visitCount);
+			newsInfoDao.saveVisit(param);
+		}else{
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("visitCount", visitCount);
+			map.put("sNewsNo", newsNo);
+			newsInfoDao.setVisitCount(map);
 		}
 	}
 	

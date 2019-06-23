@@ -2,6 +2,7 @@ package com.maiyajf.loan.manage.loan.borong;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.maiyajf.loan.manage.loan.column.po.SysColumnBean;
+import com.maiyajf.loan.manage.loan.column.service.ColumnService;
+import com.maiyajf.loan.manage.loan.company.po.CompanyMessageBean;
+import com.maiyajf.loan.manage.loan.company.service.CompanyMessageService;
 import com.maiyajf.loan.manage.loan.cooperatmessage.po.CooperatBean;
 import com.maiyajf.loan.manage.loan.cooperatmessage.service.CooperatService;
 import com.maiyajf.loan.manage.loan.news.params.QueyNewsParams;
@@ -31,6 +36,12 @@ public class controller {
 	
 	@Autowired
 	private CooperatService cooperatService;
+	
+	@Autowired
+	private ColumnService columnService;
+	
+	@Autowired
+	private CompanyMessageService companyMessageService;
 	
 	@RequestMapping(value = "/submitCooperat.htm")
 	@ResponseBody
@@ -50,20 +61,24 @@ public class controller {
 		model.setViewName("borong/index");
 		QueyNewsParams params = new QueyNewsParams();
 		
-		params.setiType(11);//核心行业
+		params.setiType(24);//核心行业推荐
 		params.setTopN(2);
 		List<XwNewsInfoBean> coreNl = newsInfoService.queryTopNews(params);
 		model.addObject("coreNl", coreNl);
 		
-		params.setiType(1);//核心行业
+		params.setiType(23);//核心行业
 		params.setTopN(null);
 		List<XwNewsInfoBean> coreList = newsInfoService.queryTopNews(params);
 		model.addObject("coreList", coreList);
 		
 		params.setiType(7);//服务案例
 		params.setTopN(3);
+		params.setiHomeDisplay(1);
+		params.setTimeShow(1); //需要添加发布时间过滤
 		List<XwNewsInfoBean> serviceList = newsInfoService.queryTopNews(params);
 		model.addObject("serviceList", serviceList);
+		params.setTimeShow(null); //需要添加发布时间过滤
+		
 		
 		params.setiType(4);
 		params.setTopN(4);
@@ -78,28 +93,46 @@ public class controller {
 		if(ryList != null && ryList.size() > 0){
 			model.addObject("ryshow", ryList.get(0));
 		}
+		params.setiHomeDisplay(null);
 		
 		//加载heard 和 foot数据
-		initLinkList(model);
+		initLinkList(model, 1);
 		return model;
 	}
 	
 	//友情链接
-	private void initLinkList(ModelAndView mv){
+	private void initLinkList(ModelAndView mv, int columIndex){
 		QueyNewsParams params = new QueyNewsParams();
 		params.setiType(3);
 		params.setTopN(10); //最多显示10条在首页
 		List<XwNewsInfoBean> bannerList = newsInfoService.queryTopNews(params);
 		mv.addObject("bannerList", bannerList);
 		
+		mv.addObject("columIndex", columIndex);
 		
 		params.setiType(15);
 		params.setTopN(null);
 		List<XwNewsInfoBean> linkList = newsInfoService.queryTopNews(params);
 		mv.addObject("linkList", linkList);
 		
-		Map<String,String> res = newsInfoService.querySeo();
-		mv.addObject("seo", res);
+		//菜单的显示
+		Map<String,Object> tm = new HashMap<String, Object>();
+		tm.put("iLevel", 0);
+//		tm.put("sFatherNo", 0);
+		List<SysColumnBean> clist = columnService.selectColumn(tm);
+		
+		for(SysColumnBean b : clist){
+			tm.put("iLevel", null);
+			tm.put("sFatherNo", b.getsGuid());
+			List<SysColumnBean> list = columnService.selectColumn(tm);
+			b.setClist(list);
+			b.setChildSize(list == null?0:list.size());
+		}
+		mv.addObject("clumns", clist);
+		mv.addObject("clumnsSize", clist == null?0:clist.size());
+		
+		CompanyMessageBean cp = companyMessageService.queryById("S0001");
+		mv.addObject("cp", cp);
 	}
 	
 	//博融团队
@@ -117,7 +150,7 @@ public class controller {
 		Map<String, Object> pageInfo = newsInfoService.queryPageNews(params, pageNumber, 8);
 		model.addObject("pageInfo", pageInfo);
 		//加载heard 和 foot数据
-		initLinkList(model);
+		initLinkList(model, 6);
 		return model;
 	}
 	
@@ -154,10 +187,72 @@ public class controller {
 		
 		
 		//加载heard 和 foot数据
-		initLinkList(model);
+		initLinkList(model, 3);
 		return model;
 	}
 	
+	//核心行业详情
+	@RequestMapping(value = "/hexinDetail.htm")
+	public ModelAndView hexinDetail(@RequestParam(value = "sNewsNo", required = false) String sNewsNo) {
+		ModelAndView model = new ModelAndView();
+		model.setViewName("borong/detail_hexinhangye");
+		Map<String, Object> info = newsInfoService.showNewsInfo(sNewsNo);
+		model.addObject("info", info);
+		
+		int visitCount = newsInfoService.queryVisit(sNewsNo);
+		model.addObject("visitCount", visitCount);
+		
+		XwNewsInfoBean cur = (XwNewsInfoBean)info.get("newsInfo");
+		
+		if( cur != null){
+			if(StringUtils.isNotBlank(cur.getRemark())){
+				List<String> bqs = Arrays.asList(cur.getRemark().trim().split(","));
+				model.addObject("bqs", bqs);
+			}
+			XwNewsInfoBean pre = newsInfoService.queryPreNews(cur.getiType().toString(), cur.getiSortNum());
+			model.addObject("pre", pre);
+			
+			XwNewsInfoBean next = newsInfoService.queryNextNews(cur.getiType().toString(), cur.getiSortNum());
+			model.addObject("next", next);
+		}
+		
+		
+		//加载heard 和 foot数据
+		initLinkList(model, 3);
+		return model;
+	}
+	
+	//核心行业详情
+	@RequestMapping(value = "/teamDetial.htm")
+	public ModelAndView teamDetial(@RequestParam(value = "sNewsNo", required = false) String sNewsNo) {
+		ModelAndView model = new ModelAndView();
+		model.setViewName("borong/detail_borongtuandui");
+		Map<String, Object> info = newsInfoService.showNewsInfo(sNewsNo);
+		model.addObject("info", info);
+		
+		int visitCount = newsInfoService.queryVisit(sNewsNo);
+		model.addObject("visitCount", visitCount);
+		
+		XwNewsInfoBean cur = (XwNewsInfoBean)info.get("newsInfo");
+		
+		if( cur != null){
+			if(StringUtils.isNotBlank(cur.getRemark())){
+				List<String> bqs = Arrays.asList(cur.getRemark().trim().split(","));
+				model.addObject("bqs", bqs);
+			}
+			XwNewsInfoBean pre = newsInfoService.queryPreNews(cur.getiType().toString(), cur.getiSortNum());
+			model.addObject("pre", pre);
+			
+			XwNewsInfoBean next = newsInfoService.queryNextNews(cur.getiType().toString(), cur.getiSortNum());
+			model.addObject("next", next);
+		}
+		
+		
+		//加载heard 和 foot数据
+		initLinkList(model, 3);
+		return model;
+	}
+
 	//服务案例
 	@RequestMapping(value = "/serviceList.htm")
 	public ModelAndView serviceList(@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
@@ -165,32 +260,30 @@ public class controller {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("borong/fuwuanli");
 		
-		//1为农业7  2位建筑业12
-		if(queryType == null || 2 != queryType){
-			queryType = 1;
-		}
+//		//1为农业7  2位建筑业12
+//		if(queryType == null || 2 != queryType){
+//			queryType = 1;
+//		}
 		
 		if(null == pageNumber){
 			pageNumber = 1;
 		}
 		
 		QueyNewsParams params = new QueyNewsParams();
-		if(queryType == 1){
-			params.setiType(7);
-		}else{
-			params.setiType(12);
-		}
+		params.setiType(12);
+		params.setTimeShow(1); //需要添加发布时间过滤
+		
 		model.addObject("queryType", queryType);
 		Map<String, Object> pageInfo = newsInfoService.queryPageNews(params, pageNumber, 8);
 		model.addObject("pageInfo", pageInfo);
 		
-		params.setTopN(1);
+		//经典案例
+		params.setiType(7);
 		List<XwNewsInfoBean> list = newsInfoService.queryTopNews(params);
-		if(list != null && list.size() > 0){
-			model.addObject("showOne", list.get(0));
-		}
+		model.addObject("jList", list);
+		
 		//加载heard 和 foot数据
-		initLinkList(model);
+		initLinkList(model, 3);
 		
 		return model;
 	}
@@ -200,9 +293,18 @@ public class controller {
 	public ModelAndView companyInfo() {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("borong/jituanjianjie");
+		//集团简介类容
+		XwNewsInfoBean bean = newsInfoService.getByNo("XTCD100000000001");
+		model.addObject("info", bean);
+		
+		//查询简介图文
+		QueyNewsParams params = new QueyNewsParams();
+		params.setiType(22);//服务案例
+		List<XwNewsInfoBean> listInfo = newsInfoService.queryTopNews(params);
+		model.addObject("listInfo", listInfo);
 		
 		//加载heard 和 foot数据
-		initLinkList(model);
+		initLinkList(model, 6);
 		return model;
 	}
 	
@@ -212,7 +314,7 @@ public class controller {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("borong/lianxiborong");
 		
-		initLinkList(model);
+		initLinkList(model, 7);
 		return model;
 	}
 	
@@ -231,7 +333,7 @@ public class controller {
 		Map<String, Object> pageInfo = newsInfoService.queryPageNews(params, pageNumber, 8);
 		model.addObject("pageInfo", pageInfo);
 		
-		initLinkList(model);
+		initLinkList(model, 6);
 		return model;
 	}
 	
@@ -242,10 +344,6 @@ public class controller {
 			@RequestParam(value = "iType", required = false) Integer iType) {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("borong/detail_sh");
-		if(null == iType){
-			iType = 14;
-		}
-		model.addObject("iType", iType);
 		
 		Map<String, Object> info = newsInfoService.showNewsInfo(sNewsNo);
 		model.addObject("info", info);
@@ -256,6 +354,11 @@ public class controller {
 		
 		
 		if( cur != null){
+			if(null == iType){
+				iType = cur.getiType();
+			}
+			model.addObject("iType", iType);
+			
 			if(StringUtils.isNotBlank(cur.getRemark())){
 				List<String> bqs = Arrays.asList(cur.getRemark().trim().split(","));
 				model.addObject("bqs", bqs);
@@ -272,11 +375,12 @@ public class controller {
 		QueyNewsParams params = new QueyNewsParams();
 		params.setiType(iType);
 		params.setTopN(2);
+		params.setiHomeDisplay(1);
 		List<XwNewsInfoBean> tjlist = newsInfoService.queryTopNews(params);
 		model.addObject("tjList", tjlist);
 		
 		//加载heard 和 foot数据
-		initLinkList(model);
+		initLinkList(model, 6);
 		return model;
 	}
 	
@@ -287,6 +391,16 @@ public class controller {
 		model.setViewName("borong/zhaoxiannashi");
 		
 		QueyNewsParams params = new QueyNewsParams();
+		
+		params.setiType(25);//选择博融
+		params.setTopN(1);
+		List<XwNewsInfoBean> chooseBr = newsInfoService.queryTopNews(params);
+		if(chooseBr != null && chooseBr.size() > 0){
+			model.addObject("chooseBr", chooseBr.get(0));
+		}
+		
+		
+		
 		params.setiType(13);
 		params.setTopN(20);
 		List<XwNewsInfoBean> list = newsInfoService.queryTopNews(params);
@@ -309,6 +423,8 @@ public class controller {
 		}
 		params.setiType(14);
 		params.setTopN(null);
+		params.setTimeShow(1); //需要添加发布时间过滤
+		
 		Map<String, Object> pageInfo = newsInfoService.queryPageNews(params, pageNumber, 3);
 		model.addObject("pageInfo", pageInfo);
 		
@@ -317,7 +433,7 @@ public class controller {
 			model.addObject("showOne", showlist.get(0));
 		}
 		
-		initLinkList(model);
+		initLinkList(model, 6);
 		return model;
 	}
 	
@@ -344,12 +460,14 @@ public class controller {
 		}else{
 			params.setiType(17);
 		}
+		params.setTimeShow(1); //需要添加发布时间过滤
+		
 		params.setSearchKey(searchKey);
 		model.addObject("queryType", queryType);
 		Map<String, Object> pageInfo = newsInfoService.queryPageNews(params, pageNumber, 8);
 		model.addObject("pageInfo", pageInfo);
 		
-		initLinkList(model);
+		initLinkList(model, 4);
 		return model;
 	}
 	
@@ -367,11 +485,12 @@ public class controller {
 		}
 		params.setSearchKey(value);
 		params.setOrderByStr("dModifyDate desc");
-		params.setSearchIType("7,12,16,17,14,2,11");
+		params.setTimeShow(1); //需要添加发布时间过滤
+		params.setSearchIType("12,16,17,14,2");
 		Map<String, Object> pageInfo = newsInfoService.queryPageNews(params, pageNumber, 10);
 		model.addObject("pageInfo", pageInfo);
 		
-		initLinkList(model);
+		initLinkList(model, 1);
 		return model;
 	}
 	
@@ -412,15 +531,17 @@ public class controller {
 		
 		//主要模块
 		QueyNewsParams params = new QueyNewsParams();
-		params.setiType(9);//主要模块
-		params.setTopN(20);
-		List<XwNewsInfoBean> mainModel = newsInfoService.queryTopNews(params);
-		model.addObject("mainModel", mainModel);
 		
 		params.setiType(1);//应用领域 就是核心行业的下面
 		params.setTopN(4);
 		List<XwNewsInfoBean> areaList = newsInfoService.queryTopNews(params);
 		model.addObject("areaList", areaList);
+		
+		params.setiType(9);//主要模块
+		params.setTopN(20);
+		params.setsModularId(queryType);
+		List<XwNewsInfoBean> mainModel = newsInfoService.queryTopNews(params);
+		model.addObject("mainModel", mainModel);
 		
 		params.setiType(8);//服务概述
 		params.setTopN(1);
@@ -430,7 +551,7 @@ public class controller {
 		}
 		
 		
-		initLinkList(model);
+		initLinkList(model, 2);
 		return model;
 	}
 	
@@ -447,7 +568,7 @@ public class controller {
 		List<XwNewsInfoBean> coreNl = newsInfoService.queryTopNews(params);
 		model.addObject("coreNl", coreNl);
 		
-		initLinkList(model);
+		initLinkList(model, 2);
 		return model;
 	}
 	
@@ -466,10 +587,11 @@ public class controller {
 		QueyNewsParams params = new QueyNewsParams();
 		params.setiType(2);
 		params.setSearchKey(searchKey);
+		params.setTimeShow(1);  //需要过滤发布时间
 		Map<String, Object> pageInfo = newsInfoService.queryPageNews(params, pageNumber, 8);
 		model.addObject("pageInfo", pageInfo);
 		
-		initLinkList(model);
+		initLinkList(model, 6);
 		return model;
 	}
 	

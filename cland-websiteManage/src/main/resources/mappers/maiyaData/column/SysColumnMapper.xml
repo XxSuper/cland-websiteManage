@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maiyajf.loan.manage.loan.column.dao.SysColumnDao">
+  <resultMap id="BaseResultMap" type="com.maiyajf.loan.manage.loan.column.po.SysColumnBean">
+    <id column="sGuid" jdbcType="VARCHAR" property="sGuid" />
+    <result column="iLevel" jdbcType="INTEGER" property="iLevel" />
+    <result column="sColumnNo" jdbcType="VARCHAR" property="sColumnNo" />
+    <result column="sFatherNo" jdbcType="VARCHAR" property="sFatherNo" />
+    <result column="sTitle" jdbcType="VARCHAR" property="sTitle" />
+    <result column="sTitleEn" jdbcType="VARCHAR" property="sTitleEn" />
+    <result column="sSeoTitle" jdbcType="VARCHAR" property="sSeoTitle" />
+    <result column="sSeoKeyWords" jdbcType="VARCHAR" property="sSeoKeyWords" />
+    <result column="sSeoDesc" jdbcType="VARCHAR" property="sSeoDesc" />
+    <result column="iSortNum" jdbcType="INTEGER" property="iSortNum" />
+    <result column="sBannerImage" jdbcType="VARCHAR" property="sBannerImage" />
+    <result column="sProfile" jdbcType="VARCHAR" property="sProfile" />
+    <result column="sLink" jdbcType="VARCHAR" property="sLink" />
+    <result column="sName" jdbcType="VARCHAR" property="sName" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    sGuid, iLevel, sColumnNo, sFatherNo, sTitle, sTitleEn, sSeoTitle, sSeoKeyWords,sSeoDesc, iSortNum,
+    sBannerImage, sProfile, sLink, sName
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_column
+    where sGuid = #{sGuid,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryColumns" parameterType="QueyNewsParams"
+          resultType="com.maiyajf.loan.manage.loan.column.po.SysColumnBean">
+    select
+      c1.sGuid, c1.iLevel, c1.sColumnNo, c1.sFatherNo, c1.sTitle, c1.sTitleEn, c1.sSeoTitle, c1.sSeoKeyWords,c1.sSeoDesc, c1.iSortNum,
+    c1.sBannerImage, c1.sProfile, c1.sLink,c2.sName sFatherName, c1.sName
+    from sys_column c1 left join sys_column c2 on c1.sFatherNo = c2.sGuid WHERE c1.idelflag = 1
+    <if test="searchKey != null and searchKey != ''.toString()">and (sName like CONCAT('%',#{searchKey},'%') </if>
+    LIMIT #{recordStart},#{recordEnd}
+  </select>
+
+  <!-- 获取顶级菜单 -->
+  <select id="getTopColumn" resultType="com.maiyajf.loan.manage.loan.column.po.SysColumnBean">
+	select * from sys_column where  iLevel=0 and idelflag = 1
+  </select>
+
+  <select id="count" parameterType="QueyNewsParams" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM sys_column WHERE idelflag = 1
+    <if test="searchKey != null and searchKey != ''.toString()">and (sTitle like CONCAT('%',#{searchKey},'%') </if>
+  </select>
+
+  <select id="showColumnInfo" resultType="com.maiyajf.loan.manage.loan.column.po.SysColumnBean">
+    select <include refid="Base_Column_List" />
+    FROM sys_column where sColumnNo = #{sColumnNo} and
+    idelflag = 1
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_column
+    where sGuid = #{sGuid,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.maiyajf.loan.manage.loan.column.po.SysColumnBean">
+    insert into sys_column (sGuid, iLevel, sColumnNo,
+      sFatherNo, sTitle, sTitleEn,
+      sSeoTitle, sSeoKeyWords,sSeoDesc, iSortNum,
+      sBannerImage, sProfile, sLink,sName
+      )
+    values (#{sGuid,jdbcType=VARCHAR}, #{iLevel,jdbcType=INTEGER}, #{sColumnNo,jdbcType=VARCHAR},
+      #{sFatherNo,jdbcType=VARCHAR}, #{sTitle,jdbcType=VARCHAR}, #{sTitleEn,jdbcType=VARCHAR},
+      #{sSeoTitle,jdbcType=VARCHAR}, #{sSeoKeyWords,jdbcType=VARCHAR},#{sSeoDesc,jdbcType=VARCHAR}, #{iSortNum,jdbcType=INTEGER},
+      #{sBannerImage,jdbcType=VARCHAR}, #{sProfile,jdbcType=VARCHAR}, #{sLink,jdbcType=VARCHAR},
+      #{sName}
+      )
+  </insert>
+
+  <insert id="save" parameterType="com.maiyajf.loan.manage.loan.column.po.SysColumnBean">
+    insert into sys_column
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sGuid != null">
+        sGuid,
+      </if>
+      <if test="iLevel != null">
+        iLevel,
+      </if>
+      <if test="sColumnNo != null">
+        sColumnNo,
+      </if>
+      <if test="sFatherNo != null">
+        sFatherNo,
+      </if>
+      <if test="sTitle != null">
+        sTitle,
+      </if>
+      <if test="sTitleEn != null">
+        sTitleEn,
+      </if>
+      <if test="sSeoTitle != null">
+        sSeoTitle,
+      </if>
+      <if test="sSeoKeyWords != null">
+        sSeoKeyWords,
+      </if>
+      <if test="sSeoDesc != null">
+        sSeoDesc,
+      </if>
+      <if test="iSortNum != null">
+        iSortNum,
+      </if>
+      <if test="sBannerImage != null">
+        sBannerImage,
+      </if>
+      <if test="sProfile != null">
+        sProfile,
+      </if>
+      <if test="sLink != null">
+        sLink,
+      </if>
+      <if test="sName != null">
+        sName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sGuid != null">
+        #{sGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="iLevel != null">
+        #{iLevel,jdbcType=INTEGER},
+      </if>
+      <if test="sColumnNo != null">
+        #{sColumnNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sFatherNo != null">
+        #{sFatherNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sTitle != null">
+        #{sTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="sTitleEn != null">
+        #{sTitleEn,jdbcType=VARCHAR},
+      </if>
+      <if test="sSeoTitle != null">
+        #{sSeoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="sSeoKeyWords != null">
+        #{sSeoKeyWords,jdbcType=VARCHAR},
+      </if>
+      <if test="sSeoDesc != null">
+        #{sSeoDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="iSortNum != null">
+        #{iSortNum,jdbcType=INTEGER},
+      </if>
+      <if test="sBannerImage != null">
+        #{sBannerImage,jdbcType=VARCHAR},
+      </if>
+      <if test="sProfile != null">
+        #{sProfile,jdbcType=VARCHAR},
+      </if>
+      <if test="sLink != null">
+        #{sLink,jdbcType=VARCHAR},
+      </if>
+      <if test="sName != null">
+        #{sName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="com.maiyajf.loan.manage.loan.column.po.SysColumnBean">
+    update sys_column
+    <set>
+      <if test="iLevel != null">
+        iLevel = #{iLevel,jdbcType=INTEGER},
+      </if>
+      <if test="sColumnNo != null">
+        sColumnNo = #{sColumnNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sFatherNo != null">
+        sFatherNo = #{sFatherNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sTitle != null">
+        sTitle = #{sTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="sTitleEn != null">
+        sTitleEn = #{sTitleEn,jdbcType=VARCHAR},
+      </if>
+      <if test="sSeoTitle != null">
+        sSeoTitle = #{sSeoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="sSeoKeyWords != null">
+        sSeoKeyWords = #{sSeoKeyWords,jdbcType=VARCHAR},
+      </if>
+      <if test="sSeoDesc != null">
+        sSeoDesc = #{sSeoDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="iSortNum != null">
+        iSortNum = #{iSortNum,jdbcType=INTEGER},
+      </if>
+      <if test="sBannerImage != null">
+        sBannerImage = #{sBannerImage,jdbcType=VARCHAR},
+      </if>
+      <if test="sProfile != null">
+        sProfile = #{sProfile,jdbcType=VARCHAR},
+      </if>
+      <if test="sLink != null">
+        sLink = #{sLink,jdbcType=VARCHAR},
+      </if>
+      <if test="sName != null">
+        sName = #{sName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sColumnNo = #{sColumnNo,jdbcType=VARCHAR}
+  </update>
+
+  <update id="deleteAll">
+    update sys_column set idelflag = 0,dModifyDate = sysDate() where
+    <foreach collection="columnNos" item="item" index="index" open=""
+             close="" separator="or">
+      sColumnNo = #{item}
+    </foreach>
+  </update>
+
+  <update id="deleteColumn">
+    update sys_column set idelflag = 0,dModifyDate = sysDate() where
+      sColumnNo = #{columnNo}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.maiyajf.loan.manage.loan.column.po.SysColumnBean">
+    update sys_column
+    set iLevel = #{iLevel,jdbcType=INTEGER},
+      sColumnNo = #{sColumnNo,jdbcType=VARCHAR},
+      sFatherNo = #{sFatherNo,jdbcType=VARCHAR},
+      sTitle = #{sTitle,jdbcType=VARCHAR},
+      sTitleEn = #{sTitleEn,jdbcType=VARCHAR},
+      sSeoTitle = #{sSeoTitle,jdbcType=VARCHAR},
+      sSeoKeyWords = #{sSeoKeyWords,jdbcType=VARCHAR},
+      sSeoDesc = #{sSeoDesc,jdbcType=VARCHAR},
+      iSortNum = #{iSortNum,jdbcType=INTEGER},
+      sBannerImage = #{sBannerImage,jdbcType=VARCHAR},
+      sProfile = #{sProfile,jdbcType=VARCHAR},
+      sLink = #{sLink,jdbcType=VARCHAR},
+      sName = #{sName,jdbcType=VARCHAR}
+    where sGuid = #{sGuid,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectColumn" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_column
+    where idelflag = 1
+    <if test="iLevel != null">and iLevel = #{iLevel}</if>
+    <if test="sFatherNo != null">and sFatherNo = #{sFatherNo}</if>
+    order by iSortNum asc
+  </select>
+</mapper>

@@ -36,7 +36,8 @@ public class NewsManageController {
 		AccessLogger.info("新闻管理查询：show:" + show + ",pageNumber:" + pageNumber, queryParams.toString(),
 				DateUtils.getCurrentTime());
 		if (null == show) {
-			return new ModelAndView("news/newsManage", null);
+//			return new ModelAndView("news/newsManage", null);
+			queryParams.setiType(2);
 		}
 		if (null == pageNumber || pageNumber < 1) {
 			pageNumber = 1;
@@ -87,6 +88,10 @@ public class NewsManageController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model = newsInfoService.showNewsInfo(newsNo);
 		model.put("operate", "edit");
+		
+		int visitCount = newsInfoService.selectVisitCount(newsNo);
+		model.put("visitCount", visitCount);
+		
 		return new ModelAndView("news/addNews", model);
 	}
 

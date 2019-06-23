@@ -38,7 +38,9 @@
 				<tr>
 					<th style='width:5%'></th>
 					<th style='width:8%'>序号</th>
-					<th style='width:20%'>图片</th>
+					<th style='width:10%'>中文标题</th>
+					<th style='width:10%'>英文标题</th>
+					<th style='width:10%'>图片</th>
 					<th style='width:15%'>操作</th>
 					<th style='width:10%'>排序</th>
 				</tr>
@@ -50,6 +52,8 @@
 							<input type="checkbox" value="${banner.sNewsNo}" name="bannerId">
 						</td>
 						<td>${banner.iSortNum}</td>
+						<td>${banner.sTitle}</td>
+						<td>${banner.remark}</td>
 						<td><img src="${banner.sBannerImage}" style='height:30px;' /></td>
 						<td>
 							<a href='javascript:;' onClick="editBanner('${banner.sNewsNo}')" id="${banner.sNewsNo}">

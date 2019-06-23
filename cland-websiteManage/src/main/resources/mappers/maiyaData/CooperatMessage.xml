@@ -9,8 +9,8 @@
 		sCompany,
 		sDescription,
 		status,
-		addTime)
-		values(#{sGuid},#{sName},#{sPhone},#{sCompany},#{sDescription},#{status},sysDate())
+		addTime,sLocation)
+		values(#{sGuid},#{sName},#{sPhone},#{sCompany},#{sDescription},#{status},sysDate(),#{sLocation})
 	</insert>
 	
 	<select id="queryPage" parameterType="java.util.Map" resultType="com.maiyajf.loan.manage.loan.cooperatmessage.po.CooperatBean">
@@ -20,7 +20,8 @@
 		sCompany,
 		sDescription,
 		status,
-		addTime
+		addTime,
+		sLocation
 		FROM cooperat_message
 		order by addTime desc
 		LIMIT #{recordStart},#{recordEnd}

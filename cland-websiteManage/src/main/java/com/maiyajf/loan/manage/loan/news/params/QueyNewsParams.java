@@ -3,6 +3,8 @@
  */
 package com.maiyajf.loan.manage.loan.news.params;
 
+import java.util.Date;
+
 /**
  * @author chao.xu
  * @version 创建时间：2017年10月11日 下午5:26:37
@@ -30,6 +32,16 @@ public class QueyNewsParams {
 	
 	private String orderByStr;
 	
+	private Integer timeShow;  //是否需要添加时间过滤
+
+	public Integer getTimeShow() {
+		return timeShow;
+	}
+
+	public void setTimeShow(Integer timeShow) {
+		this.timeShow = timeShow;
+	}
+
 	public String getOrderByStr() {
 		return orderByStr;
 	}

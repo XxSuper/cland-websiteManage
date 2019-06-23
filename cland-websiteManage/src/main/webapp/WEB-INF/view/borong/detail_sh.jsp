@@ -15,24 +15,58 @@
     <script src="${ctx}/borong/js/jquery.js"></script>
     <script src="${ctx}/borong/js/lib.js"></script>
 </head>
-
+<c:if test="${iType == 16 || iType == 17 }">
+	<c:set value="博融智库" var="pageName"></c:set>
+	<c:set value="zhiku.htm" var="url"></c:set>
+</c:if>
+<c:if test="${iType == 14 }">
+	<c:set value="博融生活" var="pageName"></c:set>
+</c:if>
+<c:if test="${iType == 2 }">
+	<c:set value="博融新闻" var="pageName"></c:set>
+	<c:set value="xinwen.htm" var="url"></c:set>
+</c:if>
 <body class="bg-f5">
     <!-- 头部 -->
     <%@ include file="common_header.jsp"%>
     <!-- 头部 -->
     <!-- banner -->
-    <div class="ban" style="background-image: url(${ctx}/borong/images/ban-2.png);">
-        <div class="txt">
-            <h3>博融生活</h3>
-            <p>Consultation</p>
-        </div>
-    </div>
+    <c:if test="${iType == 16 || iType == 17 }">
+    	<c:if test="${clumnsSize > 3}">
+	    	<div class="ban" style="background-image: url(${clumns[3].sBannerImage });">
+		        <div class="txt">
+		            <h3>${clumns[3].sTitle }</h3>
+		            <p>${clumns[3].sTitleEn }</p>
+		        </div>
+		    </div>
+	    </c:if>
+    </c:if>
+    <c:if test="${iType == 2 }">
+    	<c:if test="${clumnsSize > 5 && clumns[5].childSize > 2}">
+	    	<div class="ban" style="background-image: url(${clumns[5].clist[2].sBannerImage });">
+		        <div class="txt">
+		            <h3>${clumns[5].clist[2].sTitle }</h3>
+		            <p>${clumns[5].clist[2].sTitleEn }</p>
+		        </div>
+		    </div>
+	    </c:if>
+    </c:if>
+    <c:if test="${iType == 14 }">
+    	<c:if test="${clumnsSize > 5 && clumns[5].childSize > 0}">
+	    	<div class="ban" style="background-image: url(${clumns[5].clist[0].sBannerImage });">
+		        <div class="txt">
+		            <h3>${clumns[5].clist[0].sTitle }</h3>
+		            <p>${clumns[5].clist[0].sTitleEn }</p>
+		        </div>
+		    </div>
+	    </c:if>
+    </c:if>
     <!-- banner -->
     <!-- 内容 -->
     <div class="main">
         <div class="cur">
             <div class="wp">
-                当前位置：<a href="">首页</a>&nbsp;&gt;&nbsp;<a href="">博融生活</a>&nbsp;&gt;&nbsp;<span>案例详情</span>
+                当前位置：<a href="">首页</a>&nbsp;&gt;&nbsp;<a href="${url }">${pageName }</a>&nbsp;&gt;&nbsp;<span>文章详情</span>
             </div>
         </div>
         <div class="row-hs1">
@@ -41,7 +75,9 @@
                     <div class="box-txt1">
                         <h1>${info.newsInfo.sTitle }</h1>
                         <div class="info">
-                            <span>作者：${info.newsInfo.sWriter }</span>
+                        	<c:if test="${not empty info.newsInfo.sWriter }">
+                        		<span>作者：${info.newsInfo.sWriter }</span>
+                        	</c:if>
                             <span>时间：${info.newsInfo.dModifyDate }</span>
                             <span>浏览：${visitCount}</span>
                         </div>

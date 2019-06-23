@@ -22,12 +22,22 @@
     <%@ include file="common_header.jsp"%>
     <!-- 头部 -->
     <!-- banner -->
-    <div class="ban" style="background-image: url(${ctx}/borong/images/ban-h2.png);">
-        <div class="txt">
-            <h3>联系我们</h3>
-            <p>Contact</p>
-        </div>
-    </div>
+    <c:if test="${clumnsSize > 6}">
+    	<div class="ban" style="background-image: url(${clumns[6].sBannerImage });">
+	        <div class="txt">
+	            <h3>${clumns[6].sTitle }</h3>
+	            <p>${clumns[6].sTitleEn }</p>
+	        </div>
+	    </div>
+    </c:if>
+    <c:if test="${clumnsSize <= 6}">
+    	<div class="ban" style="background-image: url(${ctx}/borong/images/ban-h2.png);">
+	        <div class="txt">
+	            <h3>联系我们</h3>
+	            <p>Contect</p>
+	        </div>
+	    </div>
+    </c:if>
     <!-- banner -->
     <!-- 内容 -->
     <div class="main">
@@ -43,19 +53,19 @@
                             <h3>联系方式</h3>
                             <ul class="ul-h2">
                                 <li style="background-image:url(${ctx}/borong/images/h7.png)">
-                                    <p>电话：010-82626909</p>
+                                    <p>电话：${cp.sPhone }</p>
                                 </li>
                                 <li style="background-image:url(${ctx}/borong/images/h8.png)">
-                                    <p>邮箱：consult@orinf.cn（市场与咨询业务）</p>
+                                    <p>邮箱：${cp.sMailBox }</p>
                                 </li>
                                 <li style="background-image:url(${ctx}/borong/images/h9.png)">
-                                    <p>微信：orinf-consulting</p>
+                                    <p>微信：${cp.sWeChat }</p>
                                 </li>
                                 <li style="background-image:url(${ctx}/borong/images/h10.png)">
-                                    <p>地址：北京市海淀区中关村东路89号恒兴大厦306</p>
+                                    <p>地址：${cp.sAddress }</p>
                                 </li>
                                 <li style="background-image:url(${ctx}/borong/images/h11.png)">
-                                    <p>路线：地铁10号线知春里站B口出向东步行400米左转进入中关村东路辅路向北步行570米即到。</p>
+                                    <p>路线：${cp.sRoute }</p>
                                 </li>
                             </ul>
                         </div>
@@ -65,6 +75,7 @@
         </div>
         <div class="g-form">
             <form action="" id="hzform">
+            	<input type="hidden" name="sLocation" value="联系我们" />
                 <div class="wp">
                     <h2>留言合作</h2>
                     <div class="box">
@@ -98,6 +109,21 @@
     <script type="text/javascript">
     var flag = false;
 	function hzsub(){
+		var sName = $('input[name=sName]').val();
+		var sPhone = $('input[name=sPhone]').val();
+		var sCompany = $('input[name=sCompany]').val();
+		if(!sName){
+			alert("请填写联系人");
+			return;
+		}
+		if(!sPhone){
+			alert("请填写联系电话");
+			return;
+		}
+		if(!sCompany){
+			alert("请填写公司名称");
+			return;
+		}
 		if(flag){
 			alert("请不要重复提交");
 			return;

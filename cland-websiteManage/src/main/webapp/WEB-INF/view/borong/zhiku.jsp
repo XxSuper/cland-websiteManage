@@ -21,12 +21,23 @@
     <%@ include file="common_header.jsp"%>
     <!-- 头部 -->
     <!-- banner -->
-    <div class="ban" style="background-image: url(${ctx}/borong/images/ban-h2.png);">
-        <div class="txt">
-            <h3>博融智库</h3>
-            <p>Consultation</p>
-        </div>
-    </div>
+    <c:if test="${clumnsSize > 3}">
+    	<div class="ban" style="background-image: url(${clumns[3].sBannerImage });">
+	        <div class="txt">
+	            <h3>${clumns[3].sTitle }</h3>
+	            <p>${clumns[3].sTitleEn }</p>
+	        </div>
+	    </div>
+    </c:if>
+    <c:if test="${clumnsSize <= 3}">
+    	<div class="ban" style="background-image: url(${ctx}/borong/images/ban-h2.png);">
+	        <div class="txt">
+	            <h3>博融智库</h3>
+	            <p>Consultation</p>
+	        </div>
+	    </div>
+    </c:if>
+    
     <!-- banner -->
     <!-- 内容 -->
     <div class="main">
@@ -54,7 +65,7 @@
                 <ul class="ul-img1">
                 	<c:forEach items="${pageInfo.page.list}" var="pageData" varStatus="varStatus">
                 		<li>
-	                        <a href="lifeDetail.htm">
+	                        <a href="lifeDetail.htm?sNewsNo=${pageData.sNewsNo}">
 	                            <div class="pic">
 	                                <img src="${pageData.sBannerImage}" alt="" />
 	                            </div>

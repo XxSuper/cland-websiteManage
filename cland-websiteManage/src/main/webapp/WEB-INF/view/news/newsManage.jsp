@@ -74,12 +74,12 @@
 							<c:choose>
 								<c:when test="${newinfo.iHomeDisplay == 1}">
 									<a href='javascript:;' onClick="setHomeDisplay('${newinfo.sNewsNo}','${newinfo.iHomeDisplay}')">
-										<i class="icon-edit icon-white"></i>取消首页展示
+										<i class="icon-edit icon-white"></i>取消推荐/首页显示
 									</a>
 								</c:when>
 								<c:otherwise>
 									<a href='javascript:;' onClick="setHomeDisplay('${newinfo.sNewsNo}','${newinfo.iHomeDisplay}')">
-										<i class="icon-edit icon-white"></i>置为首页展示
+										<i class="icon-edit icon-white"></i>置为推荐/首页显示
 									</a>
 								</c:otherwise>
 							</c:choose>

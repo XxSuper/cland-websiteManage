@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="${ctx}/js/common/editor/themes/default/default.css" />
 <script  src="${ctx}/js/common/editor/kindeditor.js"></script>
 <script type="text/javascript" src="${ctx}/js/commonpage/addCommonPage.js?"></script>
-<c:if test="${iType == 1}">
+<c:if test="${iType == 1  || iType == 23}">
 	<c:set var="pageName" value="核心行业"></c:set>
 	<c:set var="titleName" value="行业名称"></c:set>
 </c:if>
@@ -36,6 +36,16 @@
 <c:if test="${iType == 11}">
 	<c:set var="pageName" value="核心能力"></c:set>
 	<c:set var="titleName" value="核心能力"></c:set>
+	<c:set var="remarkName" value="链接地址"></c:set>
+</c:if>
+<c:if test="${iType == 24}">
+	<c:set var="pageName" value="核心行业推荐"></c:set>
+	<c:set var="titleName" value="核心行业"></c:set>
+	<c:set var="remarkName" value="链接地址"></c:set>
+</c:if>
+<c:if test="${iType == 25}">
+	<c:set var="pageName" value="选择博融"></c:set>
+	<c:set var="titleName" value="标题"></c:set>
 </c:if>
 <c:if test="${iType == 13}">
 	<c:set var="pageName" value="博融招聘"></c:set>
@@ -61,6 +71,10 @@
 	<c:set var="pageName" value="理论本土化"></c:set>
 	<c:set var="titleName" value="标题"></c:set>
 	<c:set var="remarkName" value="标签"></c:set>
+</c:if>
+<c:if test="${iType == 22}">
+	<c:set var="pageName" value="集团简介图文"></c:set>
+	<c:set var="titleName" value="图文名称"></c:set>
 </c:if>
 
 		<!--页面标题-->
@@ -100,6 +114,20 @@
 				</c:otherwise>
 			</c:choose>
 			
+			<c:if test="${iType == 8 || iType == 9}">
+				<div class="control-group">
+	    			<label class="control-label" for="sModularId">产品模块</label>
+	  					  <div class="controls">
+	  					  	 <select id="sModularId" name="sModularId">
+	  					  	 	<option <c:if test="${newsInfo.sModularId == 1}">selected="true"</c:if> value="1">道-战略管理体系</option>
+	  					  	 	<option <c:if test="${newsInfo.sModularId == 2}">selected="true"</c:if> value="2">术-内部组织管理体系</option>
+	  					  	 	<option <c:if test="${newsInfo.sModularId == 3}">selected="true"</c:if> value="3">法-流程绩效体系</option>
+	  					  	 	<option <c:if test="${newsInfo.sModularId == 4}">selected="true"</c:if> value="4">器-信息化建设体系</option>
+	  					  	 	<option <c:if test="${newsInfo.sModularId == 5}">selected="true"</c:if> value="5">财-投融资咨询</option>
+	  					  	 </select>
+	    				</div>
+	 			 </div>
+			</c:if>
 			
 			<div class="control-group">
     			<label class="control-label" for="sTitle">${titleName}</label>
@@ -108,7 +136,7 @@
     				</div>
  			 </div>
  			 
- 			 <c:if test="${iType == 7 || iType == 12 || iType == 14}">
+ 			 <c:if test="${iType == 7 || iType == 12 || iType == 14 || iType == 16 || iType == 17}">
  			 	<div class="control-group">
 	    			<label class="control-label" for="sWriter">作者</label>
 	  					  <div class="controls">
@@ -117,7 +145,7 @@
 	 			 </div>
  			 </c:if>
 <!--  			 团队介绍不包含时间 -->
- 			 <c:if test="${iType == 2}">
+ 			 <c:if test="${iType == 2 || iType == 7 || iType == 12 || iType == 16 || iType == 17 || iType == 14}">
 	 			 <div class="control-group">
 	    			<label class="control-label" for="dPublishDate">发布时间</label>
 	  					  <div class="controls">
@@ -127,8 +155,15 @@
 							</div>
 	    				</div>
 	 			 </div>
+	 			 
+	 			 <div class="control-group">
+	    			<label class="control-label" for="visitCount">浏览次数</label>
+	  					  <div class="controls">
+	     					 <input  type="text" id="visitCount"  name="visitCount"  placeholder="" maxlength="100" value="${visitCount}">
+	    				</div>
+	 			 </div>
 			</c:if>
-			<c:if test="${iType == 4 || iType == 7 || iType == 12 || iType == 9 || iType == 13 || iType == 14 || iType == 15 || iType == 16 || iType == 17}">
+			<c:if test="${iType == 4 || iType == 11 || iType == 24 || iType == 7 || iType == 12 || iType == 9 || iType == 13 || iType == 14 || iType == 15 || iType == 16 || iType == 17}">
 				<div class="control-group">
 	    			<label class="control-label" for="sTitle">${remarkName }</label>
   					  <div class="controls">
@@ -136,9 +171,9 @@
     				</div>
 	 			 </div>
 			</c:if>
-			<c:if test="${iType == 1 || iType == 2 || iType == 4 || iType == 7 || iType == 12 || iType == 8 || iType == 9 || iType == 10 || iType == 11 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
+			<c:if test="${iType == 1 || iType == 25 || iType == 23 || iType == 22 || iType == 2 || iType == 4 || iType == 7 || iType == 12 || iType == 8 || iType == 9 || iType == 10 || iType == 11 || iType == 24 || iType == 13 || iType == 14 || iType == 16 || iType == 17}">
 				<div class="control-group">
-	    			<label class="control-label" for="">banner图</label>
+	    			<label class="control-label" for="">图片</label>
 	  					  <div class="controls" >
 	     					<input type="hidden" id="sBannerImage" name="sBannerImage" value="${newsInfo.sBannerImage}" >
 							<input type="file" id="sBannerImageFile" name="sBannerImageFile">

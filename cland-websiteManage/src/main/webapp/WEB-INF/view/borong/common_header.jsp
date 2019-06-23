@@ -14,34 +14,74 @@
             <span class="menuBtn"></span>
             <div class="hdr">
                 <ul class="nav">
-                    <li class="">
-                        <a href="index.htm" class="v1">首页</a>
+                	
+                    <li <c:if test="${columIndex == 1}">class="on"</c:if>>
+                    	<c:if test="${clumnsSize > 0}">
+                    		<a href="index.htm" class="v1">${clumns[0].sName }</a>
+                    	</c:if>
+                    	<c:if test="${clumnsSize <= 0}">
+                    		<a href="index.htm" class="v1">首页</a>
+                    	</c:if>
                     </li>
-                    <li class="">
-                        <a href="" class="v1">咨询服务</a>
+                    <li <c:if test="${columIndex == 2}">class="on"</c:if>>
+                    	<c:if test="${clumnsSize > 1}">
+                    		<a href="detailCP.htm?queryType=1" class="v1">${clumns[1].sName }</a>
+                    	</c:if>
+                    	<c:if test="${clumnsSize <= 1}">
+                    		<a href="detailCP.htm?queryType=1" class="v1">咨询服务</a>
+                    	</c:if>
+                    	
                         <dl>
                             <dd>
-                                <a href="detailCP.htm?queryType=1">道-战略管理体系</a>
+                            	<c:if test="${clumnsSize > 1 && clumns[1].childSize > 0}">
+                            		<a href="detailCP.htm?queryType=1">${clumns[1].clist[0].sName }</a>
+                            	</c:if>
+                                
                             </dd>
                             <dd>
-                                <a href="detailCP.htm?queryType=2">术-内部组织管理体系</a>
+                            	<c:if test="${clumnsSize > 1 && clumns[1].childSize > 1}">
+                            		<a href="detailCP.htm?queryType=2">${clumns[1].clist[1].sName }</a>
+                            	</c:if>
                             </dd>
                             <dd>
-                                <a href="detailCP.htm?queryType=3">法-流程绩效体系</a>
+                            	<c:if test="${clumnsSize > 1 && clumns[1].childSize > 2}">
+                            		<a href="detailCP.htm?queryType=3">${clumns[1].clist[2].sName }</a>
+                            	</c:if>
                             </dd>
                             <dd>
-                                <a href="detailCP.htm?queryType=4">器-信息化建设体系</a>
+                            	<c:if test="${clumnsSize > 1 && clumns[1].childSize > 3}">
+                            		<a href="detailCP.htm?queryType=4">${clumns[1].clist[3].sName }</a>
+                            	</c:if>
                             </dd>
                             <dd>
-                                <a href="detailCP.htm?queryType=5">财-投融资咨询</a>
+                            	<c:if test="${clumnsSize > 1 && clumns[1].childSize > 4}">
+                            		<a href="detailCP.htm?queryType=5">${clumns[1].clist[4].sName }</a>
+                            	</c:if>
+                                
+                            </dd>
+                            <dd>
+                            	<c:if test="${clumnsSize > 1 && clumns[1].childSize > 5}">
+                            		<a href="coreNls.htm">${clumns[1].clist[5].sName }</a>
+                            	</c:if>
                             </dd>
                         </dl>
                     </li>
-                    <li class="">
-                        <a href="serviceList.htm" class="v1">服务案例</a>
+                    <li <c:if test="${columIndex == 3}">class="on"</c:if>>
+                    	<c:if test="${clumnsSize > 2}">
+                    		<a href="serviceList.htm" class="v1">${clumns[2].sName }</a>
+                    	</c:if>
+                    	<c:if test="${clumnsSize <= 2}">
+                    		<a href="serviceList.htm" class="v1">服务案例</a>
+                    	</c:if>
                     </li>
-                    <li class="">
-                        <a href="zhiku.htm" class="v1">博融智库</a>
+                    <li <c:if test="${columIndex == 4}">class="on"</c:if>>
+                    	<c:if test="${clumnsSize > 3}">
+                    		<a href="zhiku.htm" class="v1">${clumns[3].sName }</a>
+                    	</c:if>
+                    	<c:if test="${clumnsSize <= 3}">
+                    		<a href="zhiku.htm" class="v1">博融智库</a>
+                    	</c:if>
+                        
                         <dl>
                             <dd>
                                 <a href="zhiku.htm?queryType=1">博融观点</a>
@@ -51,11 +91,24 @@
                             </dd>
                         </dl>
                     </li>
-                    <li class="">
-                        <a href="detailCP.htm" class="v1">信息化产品</a>
+                    <li  <c:if test="${columIndex == 5}">class="on"</c:if>>
+                    
+                    	<c:if test="${clumnsSize > 4}">
+                    		<a href="${clumns[4].sLink }" class="v1">${clumns[4].sName }</a>
+                    	</c:if>
+                    	<c:if test="${clumnsSize <= 4}">
+                    		<a href="index.htm" class="v1">信息化产品</a>
+                    	</c:if>
+                    	
                     </li>
-                    <li class="">
-                        <a href="companyInfo.htm" class="v1">认识博融</a>
+                    <li <c:if test="${columIndex == 6}">class="on"</c:if>>
+                    	<c:if test="${clumnsSize > 5}">
+                    		<a href="companyInfo.htm" class="v1">${clumns[5].sName }</a>
+                    	</c:if>
+                    	<c:if test="${clumnsSize <= 5}">
+                    		<a href="companyInfo.htm" class="v1">认识博融</a>
+                    	</c:if>
+                        
                         <dl>
                             <dd>
                                 <a href="companyInfo.htm">集团简介</a>
@@ -74,8 +127,13 @@
                             </dd>
                         </dl>
                     </li>
-                    <li class="">
-                        <a href="lianxiborong.htm" class="v1">联系博融</a>
+                    <li <c:if test="${columIndex == 7}">class="on"</c:if>>
+                    	<c:if test="${clumnsSize > 6}">
+                    		<a href="lianxiborong.htm" class="v1">${clumns[6].sName }</a>
+                    	</c:if>
+                    	<c:if test="${clumnsSize <= 6}">
+                    		<a href="lianxiborong.htm" class="v1">联系博融</a>
+                    	</c:if>
                     </li>
                 </ul>
                 <div class="sobox">

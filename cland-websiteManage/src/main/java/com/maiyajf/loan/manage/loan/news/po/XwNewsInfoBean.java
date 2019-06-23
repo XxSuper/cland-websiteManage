@@ -65,7 +65,7 @@ public class XwNewsInfoBean {
 	private String dModifyDate;
 
 	/**
-	 * 员工活动模块id
+	 * 模块id
 	 */
 	private Long sModularId;
 
@@ -77,6 +77,16 @@ public class XwNewsInfoBean {
 	private String remark;
 	
 	private String sWriter;
+	
+	private String visitCount;
+	
+	public String getVisitCount() {
+		return visitCount;
+	}
+
+	public void setVisitCount(String visitCount) {
+		this.visitCount = visitCount;
+	}
 
 	public String getsWriter() {
 		return sWriter;

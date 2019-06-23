@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
 <head>
@@ -27,8 +28,7 @@
     		<div class="item" style="background-image: url(${obj.sBannerImage});">
 	            <div class="wp">
 	                <div class="txt">
-	                    <h3>为客户企业<br />实现可持续发展服务<em>Service for Sustainable Development of Customer Enterprises</em></h3>
-	                    <p>图片预览，待文案确定后会重新设计</p>
+                   		<h3>${obj.sTitle }<em>${obj.remark }</em></h3>
 	                </div>
 	            </div>
 	        </div>
@@ -46,7 +46,7 @@
                 <ul class="ul-imgtxtq1">
                 	<c:forEach items="${coreNl}" var="obj">
                 		<li>
-	                        <a href="">
+	                        <a href="${obj.remark}">
 	                            <div class="pic">
 	                                <img src="${obj.sBannerImage}" alt="" />
 	                                <div class="con">
@@ -64,7 +64,7 @@
                 <div class="m-imgtxtq1">
                 	<c:forEach items="${coreList}" var="obj">
                 		<div class="item">
-	                        <a href="">
+	                        <a href="hexinDetail.htm?sNewsNo=${obj.sNewsNo}">
 	                            <div class="pic">
 	                                <img src="${obj.sBannerImage}" alt="" />
 	                                <span>${obj.sTitle}</span>
@@ -85,7 +85,7 @@
                 	<c:forEach items="${serviceList}" varStatus="i" var="obj">
 	                	<li>
 	                        <a href="">
-	                            <i>${i.index}</i>
+	                            <i>${i.index + 1}</i>
 	                            <div class="txt">
 	                                <h3>${obj.sTitle}</h3>
 	                                <p>${obj.sIntroduce}</p>
@@ -109,7 +109,7 @@
                 <ul class="ul-imgtxtq3">
                 	<c:forEach items="${empList}" varStatus="i" var="obj">
 	                    <li>
-	                        <a href="">
+	                        <a href="teamDetial.htm?sNewsNo=${obj.sNewsNo }">
 	                            <div class="pic"><img src="${obj.sBannerImage}" alt="" /></div>
 	                            <h3>${obj.sTitle}<em>${obj.remark}</em></h3>
 	                            <div class="txt">
@@ -121,7 +121,7 @@
 	                    </li>
                     </c:forEach>
                 </ul>
-                <a href="" class="g-more">更多介绍&gt;&gt;</a>
+                <a href="borongTeam.htm" class="g-more">更多介绍&gt;&gt;</a>
             </div>
         </div>
         <div class="row4" style="background-image: url(${ctx}/borong/images/bgq2.jpg);">
@@ -129,7 +129,10 @@
                 <div class="g-titq1">
                     <h3><span>荣誉资质</span></h3>
                     <em>honor</em>
-                    <p>${ryshow.sIntroduce }</p>
+                    <c:if test="${clumnsSize > 0 && clumns[0].childSize >0}">
+                    	<p>${clumns[0].clist[0].sProfile }</p>
+                    </c:if>
+                    
                 </div>
                 <ul class="ul-imgtxtq4">
                 	<c:forEach items="${ryList}" varStatus="i" var="obj">

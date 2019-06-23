@@ -123,3 +123,25 @@ function doSummitHonorQualification() {
         $('#news').submit();
     }
 }
+
+function setHomeDisplay(sNewsNo,iHomeDisplay) {
+	$.ajax({
+		url : ctx + "/commonPage/setHomeDisplay.htm",
+		type : "post",
+		data : {
+			sNewsNo : sNewsNo,
+			iHomeDisplay : iHomeDisplay,
+			iType : $("#iType").val()
+		},
+		dataType : "json",
+		success : function(res) {
+			//debugger;
+			if(res.code == 0) {
+				// 页面刷新,提交表单
+				$('#searchForm').submit();
+			} else {
+				alert(res.message);
+			}
+		}
+	})
+}
