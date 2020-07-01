@@ -21,7 +21,7 @@
 		<mybatis-generator-core.version>1.3.2</mybatis-generator-core.version>
 		<mybatis-springframework.version>1.2.3</mybatis-springframework.version>
 
-		<quartz.version>2.2.1</quartz.version>
+		<quartz.version>2.3.2</quartz.version>
 		<slf4j.version>1.7.12</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
 
