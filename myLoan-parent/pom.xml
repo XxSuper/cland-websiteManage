@@ -78,7 +78,7 @@
 
 		<jsch.version>0.1.54</jsch.version>
 
-		<alibaba.fastjson.version>1.2.7</alibaba.fastjson.version>
+		<alibaba.fastjson.version>1.2.83</alibaba.fastjson.version>
 
 		<active.core.version>5.7.0</active.core.version>
 
