@@ -12,7 +12,7 @@
 	<!-- 定义公共变量 -->
 	<properties>
 		<druid.verson>1.0.23</druid.verson>
-		<springframework.version>4.2.0.RELEASE</springframework.version>
+		<springframework.version>4.2.7.RELEASE</springframework.version>
 		<spring-security.version>4.0.2.RELEASE</spring-security.version>
 		<spring-asm.version>3.1.4.RELEASE</spring-asm.version>
 
